@@ -1,4 +1,11 @@
-import { render } from 'preact'
-import { App } from './app.jsx'
+import { render } from 'preact';
+import { Router } from 'preact-router';
+import { Index } from './pages/index.jsx';
 
-render(<App />, document.getElementById('app'))
+const Main = () => (
+    <Router>
+      <Index path="/" />
+    </Router>
+  );
+
+render(<Main />, document.getElementById('website'))

@@ -1,92 +1,67 @@
-import { useState, useEffect } from 'react';
 import '../tailwind.css';
+import { useEffect, useState } from 'react';
 import { NavBar, Footer } from '../components/navbar';
-import { FaFolder, FaCopy, FaSyncAlt } from 'react-icons/fa';
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
-import rehypeHighlight from 'rehype-highlight';
-import 'github-markdown-css/github-markdown.css';
-
-const loadMarkdown = async () => {
-  const response = await fetch('/README.md');
-  return await response.text();
-};
-
-const FileItem = ({ name, modified, size }) => (
-  <div className="flex justify-between p-3 border rounded-2xl mb-1 border-gray-600 items-center">
-    <div className="flex items-center space-x-4">
-      <FaFolder className="h-6 w-6 text-gray-400" />
-      <span className="text-white">{name}</span>
-    </div>
-    <div className="flex items-center space-x-8">
-      <span className="text-gray-400">{modified}</span>
-      <span className="text-gray-400">{size}</span>
-      <div className="flex space-x-2">
-        <button className="text-gray-400 hover:text-white">
-          <FaCopy className="h-5 w-5" />
-        </button>
-        <button className="text-gray-400 hover:text-white">
-          <FaSyncAlt className="h-5 w-5" />
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
-const FileExplorer = () => {
-  const files = [
-    { name: 'ChromeOS', modified: 'Jul 16 2024, 01:00', size: '203 GB' },
-    { name: 'isos', modified: 'Jul 23 2024, 00:58', size: '5.1 GB' },
-    { name: 'neofetch', modified: 'Jul 16 2024, 08:39', size: '52 KB' },
-    { name: 'software', modified: 'Aug 4 2024, 16:53', size: '9 MB' },
-  ];
-
-  return (
-    <div className="bg-github text-white rounded-lg shadow-md p-4 w-full max-w-3xl mx-auto mt-6">
-      <div className="flex justify-between items-center border-b border-gray-700 pb-2 mb-4">
-        <span className="text-lg font-semibold pr-72">Name</span>
-        <span className="text-lg font-semibold">Last Modified</span>
-        <span className="text-lg font-semibold pr-28">Size</span>
-      </div>
-
-      {files.map((file) => (
-        <FileItem key={file.name} name={file.name} modified={file.modified} size={file.size} />
-      ))}
-    </div>
-  );
-};
+import { FileExplorer } from '../components/FileExplorer';
+import { README } from '../components/README';
+import { Breadcrumbs } from '../components/Navigator.jsx';
 
 export function Index() {
-  const [markdown, setMarkdown] = useState('');
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadMarkdown().then((text) => setMarkdown(text));
+    const fetchFiles = async () => {
+      try {
+        const path = encodeURIComponent(window.location.pathname);
+        const response = await fetch(`https://ddl.kxtz.dev/api/v1/files?path=${path}`);
+        const data = await response.json();
+
+        if (data.length === 0) {
+          setFiles([
+            {
+              name: 'Unable to fetch files, dm @kxtzownsu on discord',
+              modified: 'Jan 1 1970, 00:00',
+              size: null,
+              type: 'folder',
+            },
+          ]);
+        } else {
+          setFiles(data);
+        }
+      } catch (err) {
+        console.error(err);
+        setFiles([
+          {
+            name: 'Unable to fetch files, dm @kxtzownsu on discord',
+            modified: 'Jan 1 1970, 00:00',
+            size: null,
+            type: 'folder',
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFiles();
   }, []);
 
+  if (loading) {
+    return <div className="text-center text-primary">Loading files...</div>;
+  }
+
   return (
-    <div className="bg-background w-full h-full text-primary">
+    <div className="bg-background min-h-screen flex flex-col w-full text-primary">
       <NavBar />
-      <div className="h-10 flex mt-10 justify-center">
-        <h2 className="bg-bg_secondary pr-6 pl-6 py-2">
-          <a className="underline" href="/">Home</a>
-        </h2>
-      </div>
+      <Breadcrumbs />
+
       <div className="flex justify-center">
-        <FileExplorer />
+        <FileExplorer files={files} />
       </div>
 
-      <div className="flex justify-center mt-10">
-        <div className="bg-gray-900 text-white rounded-lg shadow-md p-4 w-full max-w-3xl markdown-body">
-          <h3 className="text-xl font-semibold">README.md</h3>
-          <ReactMarkdown
-            className="mt-4 text-primary font-mono"
-            rehypePlugins={[rehypeRaw, rehypeHighlight]} 
-          >
-            {markdown}
-          </ReactMarkdown>
-        </div>
-      </div>
-      <Footer />
+      <README />
+
+      <Footer className="mt-auto" />
     </div>
   );
 }

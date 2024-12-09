@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1e1e2e;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle; 
+}
+
+h1 {
+  color: #cba6f7;
+  display: inline !important;
+  text-shadow: 0 0 32px #cba6f7;
+}
+
+p {
+  color: #777;
+  margin-top: 0;
+}

@@ -30,7 +30,7 @@ export function NavBar(){
 
 export function Footer(){
   return (
-    <footer className="w-full h-10 text-md bg-bg_secondary text-primary flex items-center justify-center top-2 mt-2 font-mono">
+    <footer className="w-full h-10 text-md mt-auto bg-bg_secondary text-primary flex items-center justify-center top-2 font-mono">
       <p>Made with &lt;3 by kxtzownsu</p>
     </footer>
   )

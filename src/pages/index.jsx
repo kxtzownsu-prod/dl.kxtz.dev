@@ -15,11 +15,20 @@ export function Index() {
         const path = encodeURIComponent(window.location.pathname);
         const response = await fetch(`https://ddl.kxtz.dev/api/v1/files?path=${path}`);
         const data = await response.json();
-
-        if (data.length === 0) {
+  
+        if (data.error) {
           setFiles([
             {
-              name: 'Unable to fetch files, dm @kxtzownsu on discord',
+              name: data.error,
+              modified: 'Jan 1 1970, 00:00',
+              size: null,
+              type: 'error',
+            },
+          ]);
+        } else if (!Array.isArray(data)) {
+          setFiles([
+            {
+              name: 'Unexpected response from server',
               modified: 'Jan 1 1970, 00:00',
               size: null,
               type: 'folder',
@@ -42,7 +51,7 @@ export function Index() {
         setLoading(false);
       }
     };
-
+  
     fetchFiles();
   }, []);
 

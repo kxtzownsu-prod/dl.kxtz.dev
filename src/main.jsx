@@ -3,8 +3,6 @@ import { Router } from 'preact-router';
 import { Index } from './pages/index.jsx';
 
 
-
-
 const Main = () => {
   return (
     <Router>

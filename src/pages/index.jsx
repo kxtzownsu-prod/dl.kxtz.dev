@@ -1,9 +1,9 @@
-import '../tailwind.css';
-import { useEffect, useState } from 'react';
-import { NavBar, Footer } from '../components/navbar';
-import { FileExplorer } from '../components/FileExplorer';
-import { README } from '../components/README';
-import { Breadcrumbs } from '../components/Navigator.jsx';
+import "../tailwind.css";
+import { useEffect, useState } from "react";
+import { NavBar, Footer } from "../components/navbar";
+import { FileExplorer } from "../components/FileExplorer";
+import { README } from "../components/README";
+import { Breadcrumbs } from "../components/Navigator.jsx";
 
 export function Index() {
   const [files, setFiles] = useState([]);
@@ -13,25 +13,27 @@ export function Index() {
     const fetchFiles = async () => {
       try {
         const path = encodeURIComponent(window.location.pathname);
-        const response = await fetch(`https://ddl.kxtz.dev/api/v1/files?path=${path}`);
+        const response = await fetch(
+          `https://ddl.kxtz.dev/api/v1/files?path=${path}`,
+        );
         const data = await response.json();
-  
+
         if (data.error) {
           setFiles([
             {
               name: data.error,
-              modified: 'Jan 1 1970, 00:00',
+              modified: "Jan 1 1970, 00:00",
               size: null,
-              type: 'error',
+              type: "error",
             },
           ]);
         } else if (!Array.isArray(data)) {
           setFiles([
             {
-              name: 'Unexpected response from server',
-              modified: 'Jan 1 1970, 00:00',
+              name: "Unexpected response from server",
+              modified: "Jan 1 1970, 00:00",
               size: null,
-              type: 'folder',
+              type: "folder",
             },
           ]);
         } else {
@@ -41,17 +43,17 @@ export function Index() {
         console.error(err);
         setFiles([
           {
-            name: 'Unable to fetch files, dm @kxtzownsu on discord',
-            modified: 'Jan 1 1970, 00:00',
+            name: "Unable to fetch files, dm @kxtzownsu on discord",
+            modified: "Jan 1 1970, 00:00",
             size: null,
-            type: 'folder',
+            type: "folder",
           },
         ]);
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchFiles();
   }, []);
 

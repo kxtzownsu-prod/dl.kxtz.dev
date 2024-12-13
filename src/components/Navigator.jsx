@@ -1,6 +1,6 @@
 export function Breadcrumbs() {
   const path = window.location.pathname;
-  const segments = path.split('/').filter(Boolean);
+  const segments = path.split("/").filter(Boolean);
 
   function navigate(href) {
     if (window.location.pathname !== href) {
@@ -13,12 +13,12 @@ export function Breadcrumbs() {
       <h2 className="bg-bg_secondary pr-6 pl-6 py-2">
         <span
           className="underline cursor-pointer"
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
         >
           Home
         </span>
         {segments.map((segment, index) => {
-          const href = '/' + segments.slice(0, index + 1).join('/');
+          const href = "/" + segments.slice(0, index + 1).join("/");
 
           return (
             <span key={href}>

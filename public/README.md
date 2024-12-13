@@ -1,4 +1,5 @@
 # kxtz' download server!
+
 a download server that runs a bunch of random stuff ![:spoob:](/spoob.webp)
 
 ## Directory Paths:
@@ -12,6 +13,7 @@ a download server that runs a bunch of random stuff ![:spoob:](/spoob.webp)
 ```
 
 ## Credits:
+
 kxtz - making site, kvs
 
 siggaddj - providing server

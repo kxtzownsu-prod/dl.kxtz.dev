@@ -1,4 +1,4 @@
-export async function loadMarkdown () {
+export async function loadMarkdown() {
   let path = window.location.pathname;
   if (path === "/") {
     path = "";
@@ -10,7 +10,7 @@ export async function loadMarkdown () {
     const response = await fetch(newpath);
     const text = await response.text();
 
-    if (text == '{"error":"File not found"}' ) {
+    if (text == '{"error":"File not found"}') {
       return "<markdown-dnr>";
       // dnr means do not render
     }
@@ -20,4 +20,4 @@ export async function loadMarkdown () {
     console.error("Failed to fetch README.md:", error);
     return "No README.md found";
   }
-};
+}

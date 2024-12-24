@@ -8,6 +8,7 @@ import { Breadcrumbs } from "../components/Navigator.jsx";
 export function Index() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [indexHtml, setIndexHtml] = useState(null);
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -38,6 +39,14 @@ export function Index() {
           ]);
         } else {
           setFiles(data);
+          const indexFile = data.find((file) => file.name === "index.html");
+          if (indexFile) {
+            const path = encodeURIComponent(window.location.pathname);
+            const ddl = `https://ddl.kxtz.dev/api/v1/raw?path=${path}/index.html`;
+            const indexResponse = await fetch(ddl);
+            const htmlContent = await indexResponse.text();
+            setIndexHtml(htmlContent);
+          }
         }
       } catch (err) {
         console.error(err);
@@ -59,6 +68,15 @@ export function Index() {
 
   if (loading) {
     return <div className="text-center text-primary">Loading files...</div>;
+  }
+
+  if (indexHtml) {
+    return (
+      <div
+        className="bg-background min-h-screen flex flex-col w-full text-primary"
+        dangerouslySetInnerHTML={{ __html: indexHtml }}
+      />
+    );
   }
 
   return (

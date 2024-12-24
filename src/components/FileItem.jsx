@@ -11,12 +11,9 @@ export function FileItem({ name, modified, size, type }) {
   if (path === "/") {
     path = "";
   }
-  console.log("path: ", path);
-
   const origin = window.location.origin;
   const newpath = `${origin}${path}/${name}`;
   const ddl = `https://ddl.kxtz.dev/api/v1/download?path=${path}/${name}`;
-  console.log(ddl);
 
   const copyToClipboard = () => {
     navigator.clipboard

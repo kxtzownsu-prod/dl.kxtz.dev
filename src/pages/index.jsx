@@ -9,7 +9,36 @@ export function Index() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [indexHtml, setIndexHtml] = useState(null);
+  const [typed, setTyped] = useState("");
+  const [triggered, setTriggered] = useState(false);
 
+  // "GEEN" typing trigger
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      setTyped((prev) => {
+        const next = (prev + e.key).slice(-4).toLowerCase();
+        if (next === "geen") setTriggered(true);
+        return next;
+      });
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Apply GEEN hack
+  useEffect(() => {
+    if (triggered) {
+      document.querySelectorAll("*").forEach((el) => {
+        if (el.children.length === 0 && el.textContent.trim() !== "") {
+          el.textContent = "GEEN HACKED KXTZ'S FILEHOST";
+        }
+        el.style.color = "hsl(114, 56%, 77%)";
+        el.style.backgroundColor = "black"; // for contrast
+      });
+    }
+  }, [triggered]);
+
+  // Fetch files logic
   useEffect(() => {
     const fetchFiles = async () => {
       try {
@@ -83,13 +112,10 @@ export function Index() {
     <div className="bg-background min-h-screen flex flex-col w-full text-primary">
       <NavBar />
       <Breadcrumbs />
-
       <div className="flex justify-center">
         <FileExplorer files={files} />
       </div>
-
       <README />
-
       <Footer className="mt-auto" />
     </div>
   );

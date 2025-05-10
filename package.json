@@ -10,19 +10,19 @@
   },
   "dependencies": {
     "github-markdown-css": "^5.8.1",
-    "preact": "^10.25.1",
+    "preact": "^10.26.6",
     "preact-router": "^4.1.2",
-    "prettier": "^3.4.2",
-    "react-icons": "^5.4.0",
-    "react-markdown": "^9.0.1",
-    "rehype-highlight": "^7.0.1",
+    "prettier": "^3.5.3",
+    "react-icons": "^5.5.0",
+    "react-markdown": "^9.1.0",
+    "rehype-highlight": "^7.0.2",
     "rehype-raw": "^7.0.0"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.9.3",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.16",
-    "vite": "^5.4.11"
+    "@preact/preset-vite": "^2.10.1",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.19"
   }
 }

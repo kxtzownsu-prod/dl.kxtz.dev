@@ -5,6 +5,7 @@ import { FileExplorer } from "../components/FileExplorer";
 import { README } from "../components/README";
 import { Breadcrumbs } from "../components/Navigator.jsx";
 import { backend } from "../backendInteraction";
+import { ACTIVE_ORIGIN, PRIMARY_ORIGIN } from "../backendInteraction";
 
 export function Index() {
   const [files, setFiles] = useState([]);
@@ -27,32 +28,31 @@ export function Index() {
   }, []);
 
   useEffect(() => {
-  if (triggered) {
-    document.querySelectorAll("*").forEach((el) => {
-      if (el.children.length === 0 && el.textContent.trim() !== "") {
-        el.textContent = "GEEN HACKED KXTZ'S FILEHOST";
+    if (triggered) {
+      document.querySelectorAll("*").forEach((el) => {
+        if (el.children.length === 0 && el.textContent.trim() !== "") {
+          el.textContent = "GEEN HACKED KXTZ'S FILEHOST";
+        }
+        el.style.color = "hsl(114, 56%, 77%)";
+        el.style.backgroundColor = "black";
+      });
+
+      const audio = new Audio("https://kxtz.dev/lifecouldbegeen.mp3");
+      audio.loop = true;
+      audio.volume = 0.25;
+      audio.play().catch((err) => {
+        console.warn("Autoplay might be blocked:", err);
+      });
+
+      window.__geen_audio = audio;
+    } else {
+      if (window.__geen_audio) {
+        window.__geen_audio.pause();
+        window.__geen_audio.remove();
+        delete window.__geen_audio;
       }
-      el.style.color = "hsl(114, 56%, 77%)";
-      el.style.backgroundColor = "black";
-    });
-
-    const audio = new Audio("https://kxtz.dev/lifecouldbegeen.mp3");
-    audio.loop = true;
-    audio.volume = 0.45;
-    audio.play().catch((err) => {
-      console.warn("Autoplay might be blocked:", err);
-    });
-
-    window.__geen_audio = audio;
-  } else {
-    if (window.__geen_audio) {
-      window.__geen_audio.pause();
-      window.__geen_audio.remove();
-      delete window.__geen_audio;
     }
-  }
-}, [triggered]);
-
+  }, [triggered]);
 
   // backend file list + index.html handling
   useEffect(() => {
@@ -107,7 +107,16 @@ export function Index() {
   }, []);
 
   if (loading) {
-    return <div className="text-center text-primary">Loading files...</div>;
+    return (
+      <div className="text-center text-primary">
+        Loading files...
+        <br />
+        <sub>
+          If this takes a while, it could be falling back, if it takes longer than 10s,
+          please DM @kxtzownsu on Discord, or email me@kxtz.dev.
+        </sub>
+      </div>
+    );
   }
 
   if (indexHtml) {
@@ -122,6 +131,15 @@ export function Index() {
   return (
     <div className="bg-background min-h-screen flex flex-col w-full text-primary">
       <NavBar />
+
+      {ACTIVE_ORIGIN !== PRIMARY_ORIGIN && (
+        <div className="bg-yellow-800 text-yellow-200 text-center p-2">
+          ⚠️ Running in fallback mode. Expect slower speeds.
+          <br />
+          <sub>if files still aren't able to be fetched, DM me IMMEDIATELY</sub>
+        </div>
+      )}
+
       <Breadcrumbs />
       <div className="flex justify-center">
         <FileExplorer files={files} />

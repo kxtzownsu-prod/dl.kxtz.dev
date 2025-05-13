@@ -6,29 +6,27 @@ import {
   FaQuestion,
 } from "react-icons/fa6";
 import { getBackendUrl } from "../backendInteraction";
+import { useEffect, useState } from "react";
 
 export function FileItem({ name, modified, size, type }) {
+  const [ddl, setDdl] = useState("#"); // default link
   let path = window.location.pathname;
-  if (path === "/") {
-    path = "";
-  }
+  if (path === "/") path = "";
 
   const fullPath = `${path}/${name}`;
-  const ddl = getBackendUrl("download", fullPath);
+  const origin = window.location.origin;
+  const navPath = `${origin}${path}/${name}`;
+
+  useEffect(() => {
+    getBackendUrl("download", fullPath).then(setDdl);
+  }, [fullPath]);
 
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(ddl)
-      .then(() => {
-        alert("Copied to clipboard!");
-      })
-      .catch((err) => {
-        alert("Failed to copy text: ", err);
-      });
+      .then(() => alert("Copied to clipboard!"))
+      .catch((err) => alert("Failed to copy text: ", err));
   };
-
-  const origin = window.location.origin;
-  const navPath = `${origin}${path}/${name}`;
 
   return (
     <div className="flex justify-between p-3 border rounded-2xl mb-1 border-gray-600 items-center">
@@ -58,15 +56,13 @@ export function FileItem({ name, modified, size, type }) {
           )}
         </div>
       </div>
+
       <div className="flex justify-between items-center gap-8">
         <span className="text-gray-400 min-w-[120px]">{modified}</span>
         <span className="text-gray-400 min-w-[80px]">{size}</span>
-        {type === "file" && (
+        {type === "file" ? (
           <div className="flex space-x-2">
-            <button
-              className="text-gray-400 hover:text-white"
-              onClick={copyToClipboard}
-            >
+            <button className="text-gray-400 hover:text-white" onClick={copyToClipboard}>
               <FaCopy className="h-5 w-5" />
             </button>
             <button className="text-gray-400 hover:text-white">
@@ -75,16 +71,10 @@ export function FileItem({ name, modified, size, type }) {
               </a>
             </button>
           </div>
-        )}
-
-        {type === "folder" && (
+        ) : (
           <div className="flex space-x-2">
-            <button className="text-gray-400 hover:text-white cursor-default">
-              <FaCopy className="h-5 w-5 invisible" />
-            </button>
-            <button className="text-gray-400 hover:text-white cursor-default">
-              <FaCircleDown className="h-5 w-5 invisible" />
-            </button>
+            <FaCopy className="h-5 w-5 invisible" />
+            <FaCircleDown className="h-5 w-5 invisible" />
           </div>
         )}
       </div>

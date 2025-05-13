@@ -4,8 +4,7 @@ import { NavBar, Footer } from "../components/navbar";
 import { FileExplorer } from "../components/FileExplorer";
 import { README } from "../components/README";
 import { Breadcrumbs } from "../components/Navigator.jsx";
-import { backend } from "../backendInteraction";
-import { ACTIVE_ORIGIN, PRIMARY_ORIGIN } from "../backendInteraction";
+import { backend, getActiveOrigin, PRIMARY_ORIGIN } from "../backendInteraction";
 
 export function Index() {
   const [files, setFiles] = useState([]);
@@ -13,6 +12,12 @@ export function Index() {
   const [indexHtml, setIndexHtml] = useState(null);
   const [typed, setTyped] = useState("");
   const [triggered, setTriggered] = useState(false);
+  const [activeOrigin, setActiveOrigin] = useState(null);
+
+  useEffect(() => {
+    getActiveOrigin().then(setActiveOrigin);
+  }, []);
+  
 
   // geen easter egg
   useEffect(() => {
@@ -132,7 +137,7 @@ export function Index() {
     <div className="bg-background min-h-screen flex flex-col w-full text-primary">
       <NavBar />
 
-      {ACTIVE_ORIGIN !== PRIMARY_ORIGIN && (
+      {activeOrigin && activeOrigin !== PRIMARY_ORIGIN && (
         <div className="bg-yellow-800 text-yellow-200 text-center p-2">
           ⚠️ Running in fallback mode. Expect slower speeds.
           <br />

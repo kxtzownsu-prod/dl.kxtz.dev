@@ -23,9 +23,6 @@ export async function getActiveOrigin() {
   return BACKUP_ORIGIN;
 }
 
-
-export const ACTIVE_ORIGIN = getActiveOrigin();
-
 export async function getBackendUrl(endpoint, path) {
   const encodedPath = encodeURIComponent(path);
   const origin = await getActiveOrigin();

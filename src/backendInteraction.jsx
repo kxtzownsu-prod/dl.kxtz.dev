@@ -6,7 +6,11 @@ export async function getActiveOrigin() {
   if (_cachedActiveOrigin) return _cachedActiveOrigin;
 
   try {
-    const res = await fetch(`${PRIMARY_ORIGIN}/api/ping`, { method: "OPTIONS", signal: AbortSignal.timeout?.(5000) });
+    const res = await fetch(`${PRIMARY_ORIGIN}/api/ping`, {
+      method: "GET",
+      signal: AbortSignal.timeout?.(5000),
+    });
+
     if (res.ok) {
       _cachedActiveOrigin = PRIMARY_ORIGIN;
       return PRIMARY_ORIGIN;
@@ -18,6 +22,7 @@ export async function getActiveOrigin() {
   _cachedActiveOrigin = BACKUP_ORIGIN;
   return BACKUP_ORIGIN;
 }
+
 
 export const ACTIVE_ORIGIN = getActiveOrigin();
 

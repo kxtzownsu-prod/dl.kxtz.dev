@@ -5,15 +5,16 @@ import {
   FaFile,
   FaQuestion,
 } from "react-icons/fa6";
+import { getBackendUrl } from "../backendInteraction";
 
 export function FileItem({ name, modified, size, type }) {
   let path = window.location.pathname;
   if (path === "/") {
     path = "";
   }
-  const origin = window.location.origin;
-  const newpath = `${origin}${path}/${name}`;
-  const ddl = `https://ddl.kxtz.dev/api/v1/download?path=${path}/${name}`;
+
+  const fullPath = `${path}/${name}`;
+  const ddl = getBackendUrl("download", fullPath);
 
   const copyToClipboard = () => {
     navigator.clipboard
@@ -25,6 +26,9 @@ export function FileItem({ name, modified, size, type }) {
         alert("Failed to copy text: ", err);
       });
   };
+
+  const origin = window.location.origin;
+  const navPath = `${origin}${path}/${name}`;
 
   return (
     <div className="flex justify-between p-3 border rounded-2xl mb-1 border-gray-600 items-center">
@@ -38,7 +42,7 @@ export function FileItem({ name, modified, size, type }) {
         </div>
         <div>
           {type === "folder" && (
-            <a className="text-white" href={newpath}>
+            <a className="text-white" href={navPath}>
               {name}
             </a>
           )}
@@ -66,7 +70,7 @@ export function FileItem({ name, modified, size, type }) {
               <FaCopy className="h-5 w-5" />
             </button>
             <button className="text-gray-400 hover:text-white">
-              <a href={`${ddl}`}>
+              <a href={ddl}>
                 <FaCircleDown className="h-5 w-5" />
               </a>
             </button>

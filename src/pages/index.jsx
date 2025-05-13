@@ -4,6 +4,7 @@ import { NavBar, Footer } from "../components/navbar";
 import { FileExplorer } from "../components/FileExplorer";
 import { README } from "../components/README";
 import { Breadcrumbs } from "../components/Navigator.jsx";
+import { backend } from "../backendInteraction";
 
 export function Index() {
   const [files, setFiles] = useState([]);
@@ -12,7 +13,7 @@ export function Index() {
   const [typed, setTyped] = useState("");
   const [triggered, setTriggered] = useState(false);
 
-  // "GEEN" typing trigger
+  // geen easter egg
   useEffect(() => {
     const handleKeyDown = (e) => {
       setTyped((prev) => {
@@ -25,28 +26,40 @@ export function Index() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Apply GEEN hack
   useEffect(() => {
-    if (triggered) {
-      document.querySelectorAll("*").forEach((el) => {
-        if (el.children.length === 0 && el.textContent.trim() !== "") {
-          el.textContent = "GEEN HACKED KXTZ'S FILEHOST";
-        }
-        el.style.color = "hsl(114, 56%, 77%)";
-        el.style.backgroundColor = "black"; // for contrast
-      });
-    }
-  }, [triggered]);
+  if (triggered) {
+    document.querySelectorAll("*").forEach((el) => {
+      if (el.children.length === 0 && el.textContent.trim() !== "") {
+        el.textContent = "GEEN HACKED KXTZ'S FILEHOST";
+      }
+      el.style.color = "hsl(114, 56%, 77%)";
+      el.style.backgroundColor = "black";
+    });
 
-  // Fetch files logic
+    const audio = new Audio("https://kxtz.dev/lifecouldbegeen.mp3");
+    audio.loop = true;
+    audio.volume = 0.45;
+    audio.play().catch((err) => {
+      console.warn("Autoplay might be blocked:", err);
+    });
+
+    window.__geen_audio = audio;
+  } else {
+    if (window.__geen_audio) {
+      window.__geen_audio.pause();
+      window.__geen_audio.remove();
+      delete window.__geen_audio;
+    }
+  }
+}, [triggered]);
+
+
+  // backend file list + index.html handling
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const path = encodeURIComponent(window.location.pathname);
-        const response = await fetch(
-          `https://ddl.kxtz.dev/api/v1/files?path=${path}`,
-        );
-        const data = await response.json();
+        const path = decodeURIComponent(window.location.pathname);
+        const data = await backend.filelist(path);
 
         if (data.error) {
           setFiles([
@@ -68,12 +81,10 @@ export function Index() {
           ]);
         } else {
           setFiles(data);
+
           const indexFile = data.find((file) => file.name === "index.html");
           if (indexFile) {
-            const path = encodeURIComponent(window.location.pathname);
-            const ddl = `https://ddl.kxtz.dev/api/v1/raw?path=${path}/index.html`;
-            const indexResponse = await fetch(ddl);
-            const htmlContent = await indexResponse.text();
+            const htmlContent = await backend.raw(`${path}/index.html`);
             setIndexHtml(htmlContent);
           }
         }

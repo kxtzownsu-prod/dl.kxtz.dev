@@ -1,4 +1,5 @@
-import { backend } from "../backendInteraction";
+import { backend } from "./backendInteraction";
+import { err } from "../logging";
 
 export async function loadMarkdown() {
 	let path = window.location.pathname;
@@ -12,8 +13,8 @@ export async function loadMarkdown() {
 		}
 
 		return text;
-	} catch (err) {
-		console.error("Failed to load README.md:", err);
+	} catch (error) {
+		err("Failed to load README.md:", error);
 		return "No README.md found";
 	}
 }

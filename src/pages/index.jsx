@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { NavBar, Footer } from "../components/navbar";
 import { FileExplorer } from "../components/FileExplorer";
 import { README } from "../components/README";
-import { Breadcrumbs } from "../components/Navigator.jsx";
+import { Breadcrumbs } from "../components/Navigator";
+import { warn, err } from "../logging";
 import {
 	backend,
 	getActiveOrigin,
 	PRIMARY_ORIGIN,
-} from "../backendInteraction";
+} from "../components/backendInteraction.jsx";
 
 export function Index() {
 	const [files, setFiles] = useState([]);
@@ -49,7 +50,7 @@ export function Index() {
 			audio.loop = true;
 			audio.volume = 0.25;
 			audio.play().catch((err) => {
-				console.warn("Autoplay might be blocked:", err);
+				warn("Autoplay might be blocked:", err);
 			});
 
 			window.__geen_audio = audio;
@@ -63,6 +64,7 @@ export function Index() {
 	}, [triggered]);
 
 	// backend file list + index.html handling
+	// kinda messy, todo: use document.documentElement
 	useEffect(() => {
 		const fetchFiles = async () => {
 			try {
@@ -96,8 +98,8 @@ export function Index() {
 						setIndexHtml(htmlContent);
 					}
 				}
-			} catch (err) {
-				console.error(err);
+			} catch (error) {
+				err(error);
 				setFiles([
 					{
 						name: "Unable to fetch files, dm @kxtzownsu on discord",

@@ -1,6 +1,12 @@
+import { log, warn, err } from '../logging.jsx';
+
 export const PRIMARY_ORIGIN = "https://ddl.kxtz.dev";
 export const BACKUP_ORIGIN = "https://ddl-bak.kxtz.dev";
 let _cachedActiveOrigin = null;
+
+// imho, this is pretty messy so just ignore it? :3
+// all you need to do to change the backend URLs is change the two URLs above
+// - kxtz
 
 export async function getActiveOrigin() {
 	if (_cachedActiveOrigin) return _cachedActiveOrigin;
@@ -15,8 +21,8 @@ export async function getActiveOrigin() {
 			_cachedActiveOrigin = PRIMARY_ORIGIN;
 			return PRIMARY_ORIGIN;
 		}
-	} catch (err) {
-		console.warn("[getActiveOrigin] PRIMARY failed:", err.message);
+	} catch (e) {
+		warn(`Primary failed: ${e.message}`);
 	}
 
 	_cachedActiveOrigin = BACKUP_ORIGIN;
@@ -38,8 +44,8 @@ export const backend = {
 			});
 			if (!res.ok) throw new Error("Primary failed");
 			return res;
-		} catch (err) {
-			console.warn("[fetchWithFallback] Primary failed:", err.message);
+		} catch (e) {
+			warn(`Primary failed: ${e.message}`);
 			const res = await fetch(backup, {
 				...options,
 				signal: AbortSignal.timeout?.(5000),
@@ -69,11 +75,8 @@ export const backend = {
 			} else {
 				throw new Error("Primary responded but not OK");
 			}
-		} catch (err) {
-			console.warn(
-				"[download fallback] Primary OPTIONS failed, using backup:",
-				err.message,
-			);
+		} catch (e) {
+			warn(`Primary OPTIONS failed, using backup: ${e.message}`);
 			return backupUrl;
 		}
 	},

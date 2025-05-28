@@ -5,7 +5,7 @@ import {
 	FaFile,
 	FaQuestion,
 } from "react-icons/fa6";
-import { getBackendUrl } from "../backendInteraction";
+import { getBackendUrl } from "./backendInteraction";
 import { useEffect, useState } from "react";
 
 export function FileItem({ name, modified, size, type }) {

@@ -4,140 +4,143 @@ import { NavBar, Footer } from "../components/navbar";
 import { FileExplorer } from "../components/FileExplorer";
 import { README } from "../components/README";
 import { Breadcrumbs } from "../components/Navigator.jsx";
-import { backend, getActiveOrigin, PRIMARY_ORIGIN } from "../backendInteraction";
+import {
+	backend,
+	getActiveOrigin,
+	PRIMARY_ORIGIN,
+} from "../backendInteraction";
 
 export function Index() {
-  const [files, setFiles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [indexHtml, setIndexHtml] = useState(null);
-  const [typed, setTyped] = useState("");
-  const [triggered, setTriggered] = useState(false);
-  const [activeOrigin, setActiveOrigin] = useState(null);
+	const [files, setFiles] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [indexHtml, setIndexHtml] = useState(null);
+	const [typed, setTyped] = useState("");
+	const [triggered, setTriggered] = useState(false);
+	const [activeOrigin, setActiveOrigin] = useState(null);
 
-  useEffect(() => {
-    getActiveOrigin().then(setActiveOrigin);
-  }, []);
-  
+	useEffect(() => {
+		getActiveOrigin().then(setActiveOrigin);
+	}, []);
 
-  // geen easter egg
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      setTyped((prev) => {
-        const next = (prev + e.key).slice(-4).toLowerCase();
-        if (next === "geen") setTriggered(true);
-        return next;
-      });
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+	// geen easter egg
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			setTyped((prev) => {
+				const next = (prev + e.key).slice(-4).toLowerCase();
+				if (next === "geen") setTriggered(true);
+				return next;
+			});
+		};
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, []);
 
-  useEffect(() => {
-    if (triggered) {
-      document.querySelectorAll("*").forEach((el) => {
-        if (el.children.length === 0 && el.textContent.trim() !== "") {
-          el.textContent = "GEEN HACKED KXTZ'S FILEHOST";
-        }
-        el.style.color = "hsl(114, 56%, 77%)";
-        el.style.backgroundColor = "black";
-      });
+	useEffect(() => {
+		if (triggered) {
+			document.querySelectorAll("*").forEach((el) => {
+				if (el.children.length === 0 && el.textContent.trim() !== "") {
+					el.textContent = "GEEN HACKED KXTZ'S FILEHOST";
+				}
+				el.style.color = "hsl(114, 56%, 77%)";
+				el.style.backgroundColor = "black";
+			});
 
-      const audio = new Audio("https://kxtz.dev/lifecouldbegeen.mp3");
-      audio.loop = true;
-      audio.volume = 0.25;
-      audio.play().catch((err) => {
-        console.warn("Autoplay might be blocked:", err);
-      });
+			const audio = new Audio("https://kxtz.dev/lifecouldbegeen.mp3");
+			audio.loop = true;
+			audio.volume = 0.25;
+			audio.play().catch((err) => {
+				console.warn("Autoplay might be blocked:", err);
+			});
 
-      window.__geen_audio = audio;
-    } else {
-      if (window.__geen_audio) {
-        window.__geen_audio.pause();
-        window.__geen_audio.remove();
-        delete window.__geen_audio;
-      }
-    }
-  }, [triggered]);
+			window.__geen_audio = audio;
+		} else {
+			if (window.__geen_audio) {
+				window.__geen_audio.pause();
+				window.__geen_audio.remove();
+				delete window.__geen_audio;
+			}
+		}
+	}, [triggered]);
 
-  // backend file list + index.html handling
-  useEffect(() => {
-    const fetchFiles = async () => {
-      try {
-        const path = decodeURIComponent(window.location.pathname);
-        const data = await backend.filelist(path);
+	// backend file list + index.html handling
+	useEffect(() => {
+		const fetchFiles = async () => {
+			try {
+				const path = decodeURIComponent(window.location.pathname);
+				const data = await backend.filelist(path);
 
-        if (data.error) {
-          setFiles([
-            {
-              name: data.error,
-              modified: "Jan 1 1970, 00:00",
-              size: null,
-              type: "error",
-            },
-          ]);
-        } else if (!Array.isArray(data)) {
-          setFiles([
-            {
-              name: "Unexpected response from server",
-              modified: "Jan 1 1970, 00:00",
-              size: null,
-              type: "folder",
-            },
-          ]);
-        } else {
-          setFiles(data);
+				if (data.error) {
+					setFiles([
+						{
+							name: data.error,
+							modified: "Jan 1 1970, 00:00",
+							size: null,
+							type: "error",
+						},
+					]);
+				} else if (!Array.isArray(data)) {
+					setFiles([
+						{
+							name: "Unexpected response from server",
+							modified: "Jan 1 1970, 00:00",
+							size: null,
+							type: "folder",
+						},
+					]);
+				} else {
+					setFiles(data);
 
-          const indexFile = data.find((file) => file.name === "index.html");
-          if (indexFile) {
-            const htmlContent = await backend.raw(`${path}/index.html`);
-            setIndexHtml(htmlContent);
-          }
-        }
-      } catch (err) {
-        console.error(err);
-        setFiles([
-          {
-            name: "Unable to fetch files, dm @kxtzownsu on discord",
-            modified: "Jan 1 1970, 00:00",
-            size: null,
-            type: "folder",
-          },
-        ]);
-      } finally {
-        setLoading(false);
-      }
-    };
+					const indexFile = data.find((file) => file.name === "index.html");
+					if (indexFile) {
+						const htmlContent = await backend.raw(`${path}/index.html`);
+						setIndexHtml(htmlContent);
+					}
+				}
+			} catch (err) {
+				console.error(err);
+				setFiles([
+					{
+						name: "Unable to fetch files, dm @kxtzownsu on discord",
+						modified: "Jan 1 1970, 00:00",
+						size: null,
+						type: "folder",
+					},
+				]);
+			} finally {
+				setLoading(false);
+			}
+		};
 
-    fetchFiles();
-  }, []);
+		fetchFiles();
+	}, []);
 
-  if (loading) {
-    return (
-      <div className="text-center text-primary">
-        Loading files...
-        <br />
-        <sub>
-          If this takes a while, it could be falling back, if it takes longer than 10s,
-          please DM @kxtzownsu on Discord, or email me@kxtz.dev.
-        </sub>
-      </div>
-    );
-  }
+	if (loading) {
+		return (
+			<div className="text-center text-primary">
+				Loading files...
+				<br />
+				<sub>
+					If this takes a while, it could be falling back, if it takes longer
+					than 10s, please DM @kxtzownsu on Discord, or email me@kxtz.dev.
+				</sub>
+			</div>
+		);
+	}
 
-  if (indexHtml) {
-    return (
-      <div
-        className="bg-background min-h-screen flex flex-col w-full text-primary"
-        dangerouslySetInnerHTML={{ __html: indexHtml }}
-      />
-    );
-  }
+	if (indexHtml) {
+		return (
+			<div
+				className="bg-background min-h-screen flex flex-col w-full text-primary"
+				dangerouslySetInnerHTML={{ __html: indexHtml }}
+			/>
+		);
+	}
 
-  return (
-    <div className="bg-background min-h-screen flex flex-col w-full text-primary">
-      <NavBar />
+	return (
+		<div className="bg-background min-h-screen flex flex-col w-full text-primary">
+			<NavBar />
 
-      {activeOrigin && activeOrigin !== PRIMARY_ORIGIN && (
+			{activeOrigin && activeOrigin !== PRIMARY_ORIGIN && (
         <div className="bg-yellow-800 text-yellow-200 text-center p-2">
           ⚠️ Running in fallback mode. Expect slower speeds.
           <br />
@@ -145,12 +148,12 @@ export function Index() {
         </div>
       )}
 
-      <Breadcrumbs />
-      <div className="flex justify-center">
-        <FileExplorer files={files} />
-      </div>
-      <README />
-      <Footer className="mt-auto" />
-    </div>
-  );
+			<Breadcrumbs />
+			<div className="flex justify-center">
+				<FileExplorer files={files} />
+			</div>
+			<README />
+			<Footer className="mt-auto" />
+		</div>
+	);
 }

@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "VITE_COMMIT_HASH=$(git rev-parse --short HEAD) VITE_BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ) vite build",
+		"build": "VITE_COMMIT_HASH=$(git rev-parse --dirty --short HEAD) VITE_BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ) vite build",
 		"preview": "vite preview",
 		"lint": "prettier . --write && eslint ."
 	},

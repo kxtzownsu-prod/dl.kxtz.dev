@@ -5,13 +5,13 @@ function getCallerInfo() {
 	let seenLoggingFrame = false;
 
 	for (const line of stack) {
-    // ew messy
+		// ew messy
 		const match = line.match(/at (\S+)? ?\(?(.+):(\d+):(\d+)\)?/);
 		if (!match) continue;
 
 		const fullPath = match[2];
 
-		// don't log from logging.jsx 
+		// don't log from logging.jsx
 		if (fullPath.includes("logging.jsx")) {
 			seenLoggingFrame = true;
 			continue;
@@ -28,8 +28,6 @@ function getCallerInfo() {
 
 	return "[unknown]";
 }
-
-
 
 export function log(message) {
 	console.log(`${getCallerInfo()} ${message}`);

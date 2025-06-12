@@ -1,7 +1,7 @@
-import { log, warn, err } from '../logging.jsx';
+import { log, warn, err } from "../logging.jsx";
 
-export const PRIMARY_ORIGIN = "https://ddl.kxtz.dev";
-export const BACKUP_ORIGIN = "https://ddl-bak.kxtz.dev";
+export const PRIMARY_ORIGIN = "https://ddl.fanqyxl.net";
+export const BACKUP_ORIGIN = "https://ddl.fanqyxl.net"; // keeping this as mine because you never know when it'll come back
 let _cachedActiveOrigin = null;
 
 // imho, this is pretty messy so just ignore it? :3

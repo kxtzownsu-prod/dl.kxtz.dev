@@ -18,12 +18,12 @@ export function Index() {
 	const [typed, setTyped] = useState("");
 	const [triggered, setTriggered] = useState(false);
 	const [activeOrigin, setActiveOrigin] = useState(null);
+	const [showDisclaimer, setShowDisclaimer] = useState(true);
 
 	useEffect(() => {
 		getActiveOrigin().then(setActiveOrigin);
 	}, []);
 
-	// geen easter egg
 	useEffect(() => {
 		const handleKeyDown = (e) => {
 			setTyped((prev) => {
@@ -63,12 +63,12 @@ export function Index() {
 		}
 	}, [triggered]);
 
-	// backend file list + index.html handling
-	// kinda messy, todo: use document.documentElement
 	useEffect(() => {
 		const fetchFiles = async () => {
 			try {
-				const path = decodeURIComponent(window.location.pathname);
+				const path = decodeURIComponent(
+					document.documentElement.dataset.pathname || window.location.pathname,
+				);
 				const data = await backend.filelist(path);
 
 				if (data.error) {
@@ -94,8 +94,21 @@ export function Index() {
 
 					const indexFile = data.find((file) => file.name === "index.html");
 					if (indexFile) {
-						const htmlContent = await backend.raw(`${path}/index.html`);
-						setIndexHtml(htmlContent);
+						console.warn("index.html found in this folder.");
+
+						if (path !== "/") {
+							const confirmed = confirm(
+								"This folder contains an index.html file. Rendering it could cause undefined behavior.\n\nDo you want to display it anyway?\n\n\nI (kxtz) am not responsible for any content hosted here. Abuse reports go to fanqyxl. All files hosted on this site are fanqyxl's, not mine.",
+							);
+							if (!confirmed) return;
+
+							const htmlContent = await backend.raw(`${path}/index.html`);
+							document.documentElement.innerHTML = htmlContent;
+						} else {
+							console.info(
+								"index.html rendering skipped on root path to prevent override.",
+							);
+						}
 					}
 				}
 			} catch (error) {
@@ -138,17 +151,38 @@ export function Index() {
 		);
 	}
 
+	console.log(activeOrigin);
+	console.log(PRIMARY_ORIGIN);
+
 	return (
 		<div className="bg-background min-h-screen flex flex-col w-full text-primary">
 			<NavBar />
 
+			{showDisclaimer && (
+				<div className="bg-red-900 text-red-200 text-center p-2 z-50 relative">
+					⚠️ Disclaimer: I (kxtz) am not responsible for any content hosted here. 
+					<br />
+					Abuse reports go to{" "}
+					<a href="https://fanqyxl.net">
+						<b>fanqyxl</b>
+					</a>
+					, not me (kxtz).
+					<br />
+					All files hosted on this site are {" "}
+					<a href="https://fanqyxl.net">
+						<b>fanqyxl</b>
+					</a>
+					's, not mine (kxtz).
+				</div>
+			)}
+
 			{activeOrigin && activeOrigin !== PRIMARY_ORIGIN && (
-        <div className="bg-yellow-800 text-yellow-200 text-center p-2">
-          ⚠️ Running in fallback mode. Expect slower speeds.
-          <br />
-          <sub>if files still aren't able to be fetched, DM me IMMEDIATELY</sub>
-        </div>
-      )}
+				<div className="bg-yellow-800 text-yellow-200 text-center p-2">
+					⚠️ Running in fallback mode. Expect slower speeds.
+					<br />
+					<sub>if files still aren't able to be fetched, DM me IMMEDIATELY</sub>
+				</div>
+			)}
 
 			<Breadcrumbs />
 			<div className="flex justify-center">

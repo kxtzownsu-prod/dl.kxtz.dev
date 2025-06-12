@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite --host 0.0.0.0",
-		"build": "VITE_COMMIT_HASH=$(git rev-parse --dirty --short HEAD) VITE_BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ) vite build",
+  		"build": "cross-env VITE_COMMIT_HASH=$(git rev-parse --short --dirty HEAD) VITE_BUILD_TIME=$(date -u +%s) vite build",
 		"preview": "vite preview",
 		"lint": "prettier . --write && eslint ."
 	},
@@ -23,6 +23,7 @@
 	"devDependencies": {
 		"@preact/preset-vite": "^2.10.1",
 		"autoprefixer": "^10.4.21",
+		"cross-env": "^7.0.3",
 		"postcss": "^8.5.3",
 		"tailwindcss": "^3.4.17",
 		"vite": "^5.4.19"

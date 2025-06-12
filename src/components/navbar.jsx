@@ -1,8 +1,8 @@
 import "../tailwind.css";
 
 const COMMIT_HASH = import.meta.env.VITE_COMMIT_HASH || "f00dcafe"; // iykyk :trolley:
-const BUILD_TIME =
-	import.meta.env.VITE_BUILD_TIME || Math.floor(Date.now() / 1000);
+const BUILD_TIME = import.meta.env.VITE_BUILD_TIME || Math.floor(Date.now() / 1000);
+
 
 export function NavBar() {
 	return (

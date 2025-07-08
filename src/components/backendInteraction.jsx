@@ -1,6 +1,6 @@
 import { log, warn, err } from "../logging.jsx";
 
-export const PRIMARY_ORIGIN = "https://ddl.fanqyxl.net";
+export const PRIMARY_ORIGIN = "https://ddl.fog.gay";
 export const BACKUP_ORIGIN = "https://ddl.fanqyxl.net"; // keeping this as mine because you never know when it'll come back
 let _cachedActiveOrigin = null;
 

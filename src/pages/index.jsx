@@ -158,30 +158,39 @@ export function Index() {
 		<div className="bg-background min-h-screen flex flex-col w-full text-primary">
 			<NavBar />
 
-			{showDisclaimer && (
-				<div className="bg-red-900 text-red-200 text-center p-2 z-50 relative">
-					⚠️ Disclaimer: I (kxtz) am not responsible for any content hosted here. 
-					<br />
-					Abuse reports go to{" "}
-					<a href="https://fanqyxl.net">
-						<b>fanqyxl</b>
-					</a>
-					, not me (kxtz).
-					<br />
-					All files hosted on this site are {" "}
-					<a href="https://fanqyxl.net">
-						<b>fanqyxl</b>
-					</a>
-					's, not mine (kxtz).
-				</div>
-			)}
-
 			{activeOrigin && activeOrigin !== PRIMARY_ORIGIN && (
-				<div className="bg-yellow-800 text-yellow-200 text-center p-2">
-					⚠️ Running in fallback mode. Expect slower speeds.
-					<br />
-					<sub>if files still aren't able to be fetched, DM me IMMEDIATELY</sub>
-				</div>
+				<>
+					{showDisclaimer && (
+						<div className="bg-red-900 text-red-200 text-center p-2 z-50 relative">
+							⚠️ Disclaimer: I (kxtz) am not responsible for any content hosted
+							here.
+							<br />
+							Abuse reports go to{" "}
+							<a href="https://fanqyxl.net">
+								<b>fanqyxl</b>
+							</a>
+							, not me (kxtz).
+							<br />
+							All files hosted on this site are{" "}
+							<a href="https://fanqyxl.net">
+								<b>fanqyxl</b>
+							</a>
+							's, not mine (kxtz).
+							<br />
+							<hr />
+							<sub className="text-grey-800 text-xs">
+								you're running in fallback mode btw so ddl.kxtz.dev is either
+								blocked/down
+							</sub>
+						</div>
+					)}
+
+					{/* <div className="bg-yellow-800 text-yellow-200 text-center p-2">
+			⚠️ Running in fallback mode. Expect slower speeds.
+			<br />
+			<sub>if files still aren't able to be fetched, DM me IMMEDIATELY</sub>
+		</div> */}
+				</>
 			)}
 
 			<Breadcrumbs />

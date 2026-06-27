@@ -8,3 +8,5 @@ dist
 
 # Where our files actually go. ddl.kxtz.dev uses this path due to legacy purposes.
 files/
+
+tests/

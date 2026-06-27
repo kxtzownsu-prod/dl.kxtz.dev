@@ -5,14 +5,7 @@
     "src": "https://github.com/kxtzownsu.png"
   }
   const name = "kxtz' download server";
-
-  /*
-    This is not supposed to be hardcoded! It is
-    in this format: "<unix ts of buikd>-<hash of build>"
-    and it's used for debugging specific builds in
-    issue report screenshots.
-  */
-  const id = "1751968768-abef124";
+  const id = `${__BUILD_TIME__}-${__GIT_HASH_SHORT__}`;
 </script>
 
 <!--

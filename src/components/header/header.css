@@ -1,3 +1,8 @@
+.header-wrap {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
 .header {
   align-items: center;
   background: var(--surface-0);
@@ -13,6 +18,10 @@
   width: 100%;
 }
 
+.header a {
+  display: block;
+}
+
 .avatar {
   border-radius: 9999px;
   box-shadow: 0 0 22px rgba(201, 156, 255, 0.9);
@@ -20,19 +29,19 @@
   width: 5rem;
 }
 
-  .title {
+.title {
   line-height: 1;
   text-align: center;
 }
 
-  .name {
+.name {
   filter: drop-shadow(0 0 8px rgba(216, 169, 255, 0.8));
   font-size: 1.7rem;
   font-weight: 700;
   letter-spacing: 0.025em;
 }
 
-  .id {
+.id {
   font-size: 1.2rem;
   margin-top: 0.25rem;
 }

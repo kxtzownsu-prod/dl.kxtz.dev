@@ -11,8 +11,7 @@ function normalizePath(path) {
 function parentPath(path) {
   const normalized = normalizePath(path);
   const lastSlash = normalized.lastIndexOf('/');
-  if (lastSlash <= 0) return '/';
-  return normalized.slice(0, lastSlash);
+  return lastSlash <= 0 ? '/' : normalized.slice(0, lastSlash);
 }
 
 function fileName(path) {
@@ -28,8 +27,9 @@ function makeAPIURL(baseURL, route, path) {
 
 async function parseResponse(response) {
   const contentType = response.headers.get('content-type') ?? '';
-  if (contentType.includes('application/json')) return await response.json();
-  return await response.text();
+  return contentType.includes('application/json')
+    ? await response.json()
+    : await response.text();
 }
 
 export async function API_GetDirectDownloadLink(path) {
@@ -57,12 +57,7 @@ export async function API_GetFileList(path = '/') {
 }
 
 function getFilesFromList(files) {
-  if (Array.isArray(files)) return files;
-  if (Array.isArray(files?.files)) return files.files;
-  if (Array.isArray(files?.entries)) return files.entries;
-  if (Array.isArray(files?.children)) return files.children;
-  if (Array.isArray(files?.items)) return files.items;
-  return [];
+  return Array.isArray(files) ? files : files?.files ?? [];
 }
 
 export async function API_GetFileInfo(path) {

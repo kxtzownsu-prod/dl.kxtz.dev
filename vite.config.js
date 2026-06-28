@@ -9,13 +9,17 @@ try {
   gitHash = `${hash}${dirty}`
 } catch {}
 
-export default defineConfig({
-  plugins: [svelte()],
-  server: {
-    allowedHosts: ['testing-us1.kxtz.dev']
-  },
-  define: {
-    __BUILD_TIME__: Date.now(),
-    __GIT_HASH_SHORT__: JSON.stringify(gitHash)
+export default defineConfig(({command}) => {
+  const buildTime = command === 'build' ? Date.now() : 'dev'
+
+  return {
+    plugins: [svelte()],
+    server: {
+      allowedHosts: ['testing-us1.kxtz.dev']
+    },
+    define: {
+      __BUILD_TIME__: JSON.stringify(buildTime),
+      __GIT_HASH_SHORT__: JSON.stringify(gitHash)
+    }
   }
 })

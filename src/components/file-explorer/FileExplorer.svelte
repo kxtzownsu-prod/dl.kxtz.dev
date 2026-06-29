@@ -43,6 +43,7 @@
   function open(event, nextPath) {
     event.preventDefault();
     history.pushState(null, '', nextPath);
+    window.dispatchEvent(new Event('pathchange'));
     loadPath(nextPath);
   }
 

@@ -8,12 +8,6 @@ function normalizePath(path) {
   return path.startsWith('/') ? path : `/${path}`;
 }
 
-function parentPath(path) {
-  const normalized = normalizePath(path);
-  const lastSlash = normalized.lastIndexOf('/');
-  return lastSlash <= 0 ? '/' : normalized.slice(0, lastSlash);
-}
-
 function fileName(path) {
   const normalized = normalizePath(path);
   return normalized.slice(normalized.lastIndexOf('/') + 1);
@@ -61,36 +55,21 @@ function getFilesFromList(files) {
 }
 
 export async function API_GetFileInfo(path) {
-  const normalized = normalizePath(path);
-  const files = await API_GetFileList(parentPath(normalized));
-  const name = fileName(normalized);
-
-  return getFilesFromList(files).find((file) => {
-    const filePath = file.path ?? file.name ?? file.filename;
-    return filePath === normalized || filePath === name;
-  }) ?? null;
-}
-
-export async function API_GetFileBlob(path) {
-  const response = await API_Request('/api/v2/download', {
+  const response = await API_Request('/api/v2/info', {
     params: {
       path: normalizePath(path)
     }
   });
 
-  return await response.blob();
+  return await response.json();
 }
 
 export async function API_DownloadFile(path) {
-  const blob = await API_GetFileBlob(path);
   const link = document.createElement('a');
-  const objectURL = URL.createObjectURL(blob);
 
-  link.href = objectURL;
-  link.download = fileName(path);
+  link.href = await API_GetDirectDownloadLink(path);
   link.rel = 'noopener';
   document.body.append(link);
   link.click();
   link.remove();
-  URL.revokeObjectURL(objectURL);
 }

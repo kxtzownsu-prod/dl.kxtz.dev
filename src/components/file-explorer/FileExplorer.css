@@ -1,4 +1,40 @@
+ul {
+  list-style: none;
+  margin: 1.5rem auto 0;
+  padding: 0;
+  max-width: 95%;
+  width: 100%;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 2px solid var(--surface-1);
+}
+
+li {
+  display: block;
+}
+
+li:nth-child(odd) {
+  background: var(--surface-0);
+}
+
+li:nth-child(even) {
+  background: var(--mantle);
+}
+
 li a {
   color: var(--mauve);
   text-decoration: none;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+li a:hover {
+  background: var(--surface-1);
+  color: var(--lavender);
+}
+
+p {
+  max-width: 95%;
+  margin: 1.5rem auto 0;
 }

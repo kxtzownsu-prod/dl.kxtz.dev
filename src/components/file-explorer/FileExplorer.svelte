@@ -1,4 +1,6 @@
 <script>
+  import './FileExplorer.css';
+
   import { onMount } from 'svelte';
   import { API_GetFileInfo, API_GetFileList } from '../api/download.js';
 

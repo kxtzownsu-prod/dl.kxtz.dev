@@ -1,5 +1,5 @@
 <script>
-  import './header.css';
+  import './Header.css';
 
   const leftAvatar = {
     "name": "kxtzownsu",

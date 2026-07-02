@@ -1,4 +1,6 @@
 <script>
+  import './app.css';
+  
   import FileExplorer from './components/file-explorer/FileExplorer.svelte'
 </script>
 

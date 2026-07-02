@@ -1,7 +1,26 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import tailwindcss from '@tailwindcss/vite'
+import { execSync } from 'child_process'
 
-export default defineConfig({
-  plugins: [tailwindcss(), svelte()],
+let gitHash = 'unknown'
+try {
+  const hash = execSync('git rev-parse --short HEAD').toString().trim()
+  const dirty = execSync('git status --porcelain').toString().trim() ? '-dirty' : ''
+  gitHash = `${hash}${dirty}`
+} catch {}
+
+export default defineConfig(({command}) => {
+  const buildTime = command === 'build' ? Date.now() : 'dev'
+
+  return {
+    plugins: [tailwindcss(), svelte()],
+    server: {
+      allowedHosts: ['testing-us1.kxtz.dev']
+    },
+    define: {
+      __BUILD_TIME__: JSON.stringify(buildTime),
+      __GIT_HASH_SHORT__: JSON.stringify(gitHash)
+    }
+  }
 })

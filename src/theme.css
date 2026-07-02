@@ -1,6 +1,7 @@
 @theme {
   --color-background: #0f0f0f;
-  --color-text: #fefefe;
+  --color-primary: #fefefe;
+  --color-secondary: #989898;
   --font-terminal: "Geist Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
   --font-normal: "Geist", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }

@@ -1,7 +1,7 @@
 import { log, warn, err } from "../logging.jsx";
 
-export const PRIMARY_ORIGIN = "https://ddl.fog.gay";
-export const BACKUP_ORIGIN = "https://ddl.fanqyxl.net"; // keeping this as mine because you never know when it'll come back
+export const PRIMARY_ORIGIN = "https://ddl.kxtz.dev";
+export const BACKUP_ORIGIN = "https://ddl-fallback.kxtz.dev"; // keeping this as mine because you never know when it'll come back
 let _cachedActiveOrigin = null;
 
 // imho, this is pretty messy so just ignore it? :3
@@ -32,7 +32,7 @@ export async function getActiveOrigin() {
 export async function getBackendUrl(endpoint, path) {
 	const encodedPath = encodeURIComponent(path);
 	const origin = await getActiveOrigin();
-	return `${origin}/api/v1/${endpoint}?path=${encodedPath}`;
+	return `${origin}/api/v2/${endpoint}?path=${encodedPath}`;
 }
 
 export const backend = {
@@ -57,16 +57,16 @@ export const backend = {
 
 	async filelist(path = window.location.pathname) {
 		const encoded = encodeURIComponent(path);
-		const urlPrimary = `${PRIMARY_ORIGIN}/api/v1/files?path=${encoded}`;
-		const urlBackup = `${BACKUP_ORIGIN}/api/v1/files?path=${encoded}`;
+		const urlPrimary = `${PRIMARY_ORIGIN}/api/v2/files?path=${encoded}`;
+		const urlBackup = `${BACKUP_ORIGIN}/api/v2/files?path=${encoded}`;
 		const res = await backend.fetchWithFallback(urlPrimary, urlBackup);
 		return await res.json();
 	},
 
 	async download(path) {
 		const encoded = encodeURIComponent(path);
-		const primaryUrl = `${PRIMARY_ORIGIN}/api/v1/download?path=${encoded}`;
-		const backupUrl = `${BACKUP_ORIGIN}/api/v1/download?path=${encoded}`;
+		const primaryUrl = `${PRIMARY_ORIGIN}/api/v2/download?path=${encoded}`;
+		const backupUrl = `${BACKUP_ORIGIN}/api/v2/download?path=${encoded}`;
 
 		try {
 			const res = await fetch(primaryUrl, { method: "OPTIONS" });
@@ -83,8 +83,8 @@ export const backend = {
 
 	async raw(path) {
 		const encoded = encodeURIComponent(path);
-		const urlPrimary = `${PRIMARY_ORIGIN}/api/v1/raw?path=${encoded}`;
-		const urlBackup = `${BACKUP_ORIGIN}/api/v1/raw?path=${encoded}`;
+		const urlPrimary = `${PRIMARY_ORIGIN}/api/v2/raw?path=${encoded}`;
+		const urlBackup = `${BACKUP_ORIGIN}/api/v2/raw?path=${encoded}`;
 		const res = await backend.fetchWithFallback(urlPrimary, urlBackup);
 		return await res.text();
 	},

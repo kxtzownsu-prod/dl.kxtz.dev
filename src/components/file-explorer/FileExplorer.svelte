@@ -1,21 +1,39 @@
 <script>
   import { onMount } from 'svelte';
-  
+
   import { API_GetFileInfo, API_GetFileList } from '../api/download.js';
 
   let data = [];
-  let error = false;
+  let error = '';
 
   onMount(async () => {
     try {
-      const fileInfo = await API_GetFileInfo('/');
-      if (fileInfo.type === 'directory') {
-        data = await API_GetFileList('/');
-      } else {
+      const path = decodeURIComponent(window.location.pathname);
+      const fileInfo = await API_GetFileInfo(path);
+
+      if (fileInfo.type !== 'directory') {
         throw new Error('The path is not a directory.');
+      }
+
+      const files = await API_GetFileList(path);
+
+      if (path != '/') {
+        data = [
+          {
+            name: '..',
+            path: '../',
+            modified: '',
+            size: '',
+            type: 'directory'
+          },
+          ...files
+        ];
+      } else {
+        data = files;
       }
     } catch (err) {
       console.error(err);
+      error = err.message || 'Failed to load directory.';
     }
   });
 </script>
@@ -26,6 +44,6 @@
   <p>loading...</p>
 {:else}
   {#each data as item}
-    <div>./{item.name}</div>
+    <div><a href="{item.path}">{item.name}</a></div>
   {/each}
 {/if}

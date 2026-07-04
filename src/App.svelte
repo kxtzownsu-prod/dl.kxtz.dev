@@ -1,6 +1,7 @@
 <script>
   import './app.css';
-
+  
+  import Breadcrumbs from './components/breadcrumbs/Breadcrumbs.svelte';
   import FileExplorer from './components/file-explorer/FileExplorer.svelte'
 </script>
 
@@ -10,16 +11,7 @@
   </div>
   
   <div class="font-terminal py-2">
-    <!--
-      This will eventually become breadcrumbs, so just wait
-      until then I guess.
-    -->
-    <div class="flex py-2 text-md">
-      <p class="file-list-entry">/</p>
-      <p class="file-list-entry">Foobar</p>
-      <p class="file-list-separator">/</p>
-      <p class="file-list-entry">Barfoo</p>
-    </div>
+    <Breadcrumbs />
     <FileExplorer />
   </div>
 </main>

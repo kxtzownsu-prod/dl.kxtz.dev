@@ -25,8 +25,12 @@
     {#if index > 1}
       <p>/</p>
     {/if}
-    <p class="text-secondary text-md">
-      {crumb.name}
-    </p>
+    {#if index === 0}
+      <p>{crumb.name}</p>
+    {:else}
+      <p class="text-secondary text-md">
+        {crumb.name}
+      </p>
+    {/if}
   {/each}
 </div>

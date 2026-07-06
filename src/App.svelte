@@ -5,7 +5,7 @@
   import FileExplorer from './components/file-explorer/FileExplorer.svelte'
 </script>
 
-<main class="bg-background text-primary font-normal min-w-screen min-h-screen max-w-screen max-h-screen p-8">
+<main class="bg-background text-primary font-normal min-w-screen min-h-screen max-w-screen p-8">
   <div class="py-2">
     <h1 class="text-sm text-secondary">dl.kxtz.dev_{__BUILD_TIME__}-{__GIT_HASH_SHORT__}</h1>
   </div>

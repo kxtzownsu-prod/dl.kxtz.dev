@@ -17,5 +17,10 @@
     "svelte": "^5.56.4",
     "tailwindcss": "^4.3.1",
     "vite": "^8.1.0"
+  },
+  "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^7.3.0",
+    "@fortawesome/free-solid-svg-icons": "^7.3.0",
+    "@fortawesome/svelte-fontawesome": "^0.2.4"
   }
 }

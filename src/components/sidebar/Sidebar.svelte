@@ -38,12 +38,14 @@
   <SidebarFolderList class="overflow-x-hidden">
     <SidebarFolderItem
       isFirstEntry="true"
+      isOpen="true"
       hasSubdirs="true"
       folderName="My Files"
       folderType="directory"
     >
       <SidebarFolderList>
-        <SidebarFolderItem 
+        <SidebarFolderItem
+          isOpen="true"
           hasSubdirs="true"
           folderName="ChromeOS"
           folderType="directory"

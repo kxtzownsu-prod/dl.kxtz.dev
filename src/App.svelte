@@ -1,17 +1,18 @@
 <script>
   import './app.css';
-  
-  import Breadcrumbs from './components/breadcrumbs/Breadcrumbs.svelte';
-  import FileExplorer from './components/file-explorer/FileExplorer.svelte'
+
+  import Sidebar from './components/sidebar/Sidebar.svelte';
+  import FileExplorer from './components/file-explorer/FileExplorer.svelte';
 </script>
 
-<main class="bg-background text-primary font-normal min-w-screen min-h-screen max-w-screen p-8">
-  <div class="py-2">
-    <h1 class="text-sm text-secondary">dl.kxtz.dev_{__BUILD_TIME__}-{__GIT_HASH_SHORT__}</h1>
-  </div>
-  
-  <div class="font-terminal py-2">
-    <Breadcrumbs />
+<main class="bg-app_base_shaded text-primary font-button-2 h-screen w-screen overflow-hidden flex">
+  <!-- sidebar -->
+  <aside class="w-54 shrink-0 h-full overflow-y-auto p-8 pr-2">
+    <Sidebar />
+  </aside>
+
+  <!-- files area -->
+  <section class="flex-1 min-w-0 h-full overflow-y-auto p-8 pl-4">
     <FileExplorer />
-  </div>
+  </section>
 </main>

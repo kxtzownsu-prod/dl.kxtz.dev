@@ -1,7 +1,49 @@
+/* "--cros" themes extracted from ChromeOS R147 Files PWA */ 
+
+@font-face {
+  font-family: "GSR";
+  src: local("Google Sans Regular");
+}
+
+@font-face {
+  font-family: "GSM";
+  src: local("Google Sans Medium");
+}
+
+@font-face {
+  font-family: "GSB";
+  src: local("Google Sans Bold");
+}
+
+@font-face {
+  font-family: "GSTR";
+  src: local("Google Sans Text Regular");
+}
+
+@font-face {
+  font-family: "GSTM";
+  src: local("Google Sans Text Medium");
+}
+
+@font-face {
+  font-family: "GSTB";
+  src: local("Google Sans Text Bold");
+}
+
+:root {
+  --cros-font-family-google-sans-text-medium: 'GSTM', 'Google Sans', 'Roboto', sans-serif;
+}
+
 @theme {
-  --color-background: #0f0f0f;
-  --color-primary: #fefefe;
-  --color-secondary: #989898;
+  --color-app_base_shaded: #000000ff; /* --cros-sys-app_base_shaded */
+  --color-app_base: #171816ff; /* --cros-sys-app_base */
+  --color-hover_on_subtle: #fefcf919; /* --cros-sys-hover_on_subtle */
+  --color-surface_variant: #474745ff; /* --cros-sys-surface_variant */
+  --color-secondary_container: #424940ff; /* --cros-sys-secondary_container */
+  --color-primary: #becab8ff; /* --cros-sys-primary */
+  --color-on_primary: #293326ff; /* --cros-sys-on_primary */
+  --color-on_surface: #e4e2dfff; /* --cros-sys-on_surface */
   --font-terminal: "Geist Mono", "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
   --font-normal: "Geist", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-button-2: 500 13px / 20px var(--cros-font-family-google-sans-text-medium); /* --cros-button-2-font */
 }

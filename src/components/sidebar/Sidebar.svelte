@@ -10,6 +10,8 @@
       "subdirs": []
     }
   ];
+
+  let selectedFolder = $state('/');
 </script>
 
 <!--
@@ -42,28 +44,42 @@
       hasSubdirs="true"
       folderName="My Files"
       folderType="directory"
+      selected={selectedFolder == '/'}
+      onSelect={() => selectedFolder = '/'}
     >
       <SidebarFolderList>
         <SidebarFolderItem
+          depth="1"
           isOpen="true"
           hasSubdirs="true"
           folderName="ChromeOS"
           folderType="directory"
+          selected={selectedFolder == '/ChromeOS'}
+          onSelect={() => selectedFolder = '/ChromeOS'}
         >
           <SidebarFolderList>
-            <SidebarFolderItem 
+            <SidebarFolderItem
+              depth="2"
               folderName="GSC"
               folderType="directory"
+              selected={selectedFolder == '/ChromeOS/GSC'}
+              onSelect={() => selectedFolder = '/ChromeOS/GSC'}
             />
-            <SidebarFolderItem 
+            <SidebarFolderItem
+              depth="2"
               folderName="shims"
               folderType="directory"
+              selected={selectedFolder == '/ChromeOS/shims'}
+              onSelect={() => selectedFolder = '/ChromeOS/shims'}
             />
           </SidebarFolderList>
         </SidebarFolderItem>
         <SidebarFolderItem
+          depth="1"
           folderName="isos"
           folderType="directory"
+          selected={selectedFolder == '/isos'}
+          onSelect={() => selectedFolder = '/isos'}
         />
       </SidebarFolderList>
     </SidebarFolderItem>

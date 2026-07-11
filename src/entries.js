@@ -1,4 +1,8 @@
 export const DIRECTORY_TYPE = 'directory';
+const ENTRY_COLLATOR = new Intl.Collator(undefined, {
+  numeric: true,
+  sensitivity: 'base'
+});
 
 export function isDirectory(entry) {
   return entry?.type === DIRECTORY_TYPE;
@@ -13,7 +17,7 @@ export function compareEntries(a, b) {
     return isDirectory(a) ? -1 : 1;
   }
 
-  return a.name.localeCompare(b.name, undefined, {sensitivity: 'base'});
+  return ENTRY_COLLATOR.compare(a.name, b.name);
 }
 
 export function sortEntries(entries) {

@@ -33,7 +33,7 @@
     <button
       type="button"
       onclick={onSelect}
-      class={`grid h-8 w-full grid-cols-[0.75rem_1rem_minmax(0,1fr)] items-center gap-1.5 rounded-full pr-3 text-left transition-colors ${depthClass(depth)} ${selected ? 'bg-primary text-on_primary' : 'hover:bg-hover_on_subtle'}`}
+      class={`grid cursor-pointer h-8 w-full grid-cols-[0.75rem_1rem_minmax(0,1fr)] items-center gap-1.5 rounded-full pr-3 text-left transition-colors ${depthClass(depth)} ${selected ? 'bg-primary text-on_primary' : 'hover:bg-hover_on_subtle'}`}
     >
       <span class="inline-flex min-w-0 items-center justify-center text-[0.625rem]">
         {#if hasSubdirs == 'true'}

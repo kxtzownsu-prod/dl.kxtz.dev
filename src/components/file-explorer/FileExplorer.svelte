@@ -1,10 +1,14 @@
 <script>
-  import { onMount } from 'svelte';
-
   import { API_GetFileInfo, API_GetFileList } from '../api/download.js';
 
-  let data = [];
-  let error = '';
+  let {
+    path = '/',
+    onNavigate = () => {}
+  } = $props();
+
+  let data = $state([]);
+  let error = $state('');
+  let requestID = 0;
 
   function fileSort(a, b) {
     if (a.type !== b.type) {
@@ -20,19 +24,13 @@
       : item.name;
   }
 
-  function parentPath(path) {
-    const parts = path.split('/').filter(Boolean);
+  async function loadDirectory(path) {
+    const currentRequestID = ++requestID;
 
-    if (parts.length <= 1) {
-      return '/';
-    }
+    data = [];
+    error = '';
 
-    return `/${parts.slice(0, -1).join('/')}/`;
-  }
-
-  onMount(async () => {
     try {
-      const path = decodeURIComponent(window.location.pathname);
       const fileInfo = await API_GetFileInfo(path);
 
       if (fileInfo.type !== 'directory') {
@@ -42,20 +40,23 @@
       const files = await API_GetFileList(path);
       const sortedFiles = [...files].sort(fileSort);
 
-      data = [
-        {
-          name: '..',
-          path: parentPath(path),
-          modified: '',
-          size: '',
-          type: 'directory'
-        },
-        ...sortedFiles
-      ];
+      if (currentRequestID != requestID) {
+        return;
+      }
+
+      data = sortedFiles;
     } catch (err) {
+      if (currentRequestID != requestID) {
+        return;
+      }
+
       console.error(err);
-      error = err.message || 'Failed to load directory.';
+      error = err.message || 'failed to load directory';
     }
+  }
+
+  $effect(() => {
+    loadDirectory(path);
   });
 </script>
 
@@ -65,6 +66,20 @@
   <p>loading...</p>
 {:else}
   {#each data as item}
-    <div><a href="{item.path}">{displayName(item)}</a></div>
+    <div>
+      {#if item.type == 'directory'}
+        <a
+          href={item.path}
+          onclick={(event) => {
+            event.preventDefault();
+            onNavigate(item.path);
+          }}
+        >
+          {displayName(item)}
+        </a>
+      {:else}
+        <a href={item.path}>{displayName(item)}</a>
+      {/if}
+    </div>
   {/each}
 {/if}

@@ -1,87 +1,99 @@
 <script>
+  import { onMount } from 'svelte';
+
+  import { directoryHref, normalizePath } from '../../path.js';
+  import { API_GetTree } from '../api/tree.js';
   import SidebarFolderItem from './SidebarFolderItem.svelte';
   import SidebarFolderList from './SidebarFolderList.svelte';
 
-  let entries = [
-    {
-      "name": "My Files",
-      "path": "/",
-      "type": "directory",
-      "subdirs": []
-    }
-  ];
+  let {
+    currentPath = '/',
+    onNavigate = () => {}
+  } = $props();
 
-  let selectedFolder = $state('/');
+  let tree = $state([]);
+  let error = $state('');
+  let openFolders = $state(new Set(['/']));
+
+  let entries = $derived([{
+    name: 'My Files',
+    path: '/',
+    type: 'directory',
+    subdirs: tree
+  }]);
+  let visibleEntries = $derived(flattenTree(entries, openFolders));
+
+  function flattenTree(items, expanded, depth = 0) {
+    const visible = [];
+    const sortedItems = [...items].sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}));
+
+    for (const item of sortedItems) {
+      visible.push({item, depth});
+
+      if (item.subdirs?.length > 0 && expanded.has(item.path)) {
+        visible.push(...flattenTree(item.subdirs, expanded, depth + 1));
+      }
+    }
+
+    return visible;
+  }
+
+  function expandPath(path) {
+    const expanded = new Set(openFolders);
+    const parts = normalizePath(path).split('/').filter(Boolean);
+
+    expanded.add('/');
+
+    for (let index = 1; index <= parts.length; index++) {
+      expanded.add(`/${parts.slice(0, index).join('/')}`);
+    }
+
+    openFolders = expanded;
+  }
+
+  function toggleFolder(path) {
+    const expanded = new Set(openFolders);
+
+    if (expanded.has(path)) {
+      expanded.delete(path);
+    } else {
+      expanded.add(path);
+    }
+
+    openFolders = expanded;
+  }
+
+  onMount(async () => {
+    try {
+      tree = await API_GetTree();
+      expandPath(currentPath);
+    } catch (err) {
+      console.error(err);
+      error = err.message || 'failed to load folders';
+    }
+  });
 </script>
 
-<!--
-
-  Entries 
-  
-  TODO: dont't hardcode these. right now they're just for
-        us to ensure the style is correct, but in the
-        future we'll need to actually fill this out using
-        API_GetTree(); whenever it's implemented.
-
-  Problems we'll need to figure out:
-    - Whenever a folder name is more than X characters, truncate the
-      last 3 characters that'll be visible into `...`, e.g:
-      `VeryLongFolderName` -> `VeryLo...`
-      (also we'll need to account for nesting)
-    - Only one folder in the parent dir can be opened, e.g:
-      let's say we have `MyFiles/{ChromeOS,isos}/{shims,windows}`,
-      we would be able to tree view `MyFiles/ChromeOS/shims` but
-      if we were to try and do a tree view on `MyFiles/isos/` it
-      would automatically close that old ChromeOS tree and open
-      the isos tree. When the isos tree is open we can open the
-      windows tree just fine without the isos tree closing. 
--->
 <div>
   <SidebarFolderList class="overflow-x-hidden">
-    <SidebarFolderItem
-      isFirstEntry="true"
-      isOpen="true"
-      hasSubdirs="true"
-      folderName="My Files"
-      folderType="directory"
-      selected={selectedFolder == '/'}
-      onSelect={() => selectedFolder = '/'}
-    >
-      <SidebarFolderList>
-        <SidebarFolderItem
-          depth="1"
-          isOpen="true"
-          hasSubdirs="true"
-          folderName="ChromeOS"
-          folderType="directory"
-          selected={selectedFolder == '/ChromeOS'}
-          onSelect={() => selectedFolder = '/ChromeOS'}
-        >
-          <SidebarFolderList>
-            <SidebarFolderItem
-              depth="2"
-              folderName="GSC"
-              folderType="directory"
-              selected={selectedFolder == '/ChromeOS/GSC'}
-              onSelect={() => selectedFolder = '/ChromeOS/GSC'}
-            />
-            <SidebarFolderItem
-              depth="2"
-              folderName="shims"
-              folderType="directory"
-              selected={selectedFolder == '/ChromeOS/shims'}
-              onSelect={() => selectedFolder = '/ChromeOS/shims'}
-            />
-          </SidebarFolderList>
-        </SidebarFolderItem>
-        <SidebarFolderItem
-          depth="1"
-          folderName="isos"
-          folderType="directory"
-          selected={selectedFolder == '/isos'}
-          onSelect={() => selectedFolder = '/isos'}
-        />
-      </SidebarFolderList>
-    </SidebarFolderItem>
+    {#each visibleEntries as entry (entry.item.path)}
+      <SidebarFolderItem
+        depth={entry.depth}
+        isFirstEntry={entry.item.path == '/'}
+        isOpen={openFolders.has(entry.item.path)}
+        hasSubdirs={entry.item.subdirs?.length > 0}
+        folderName={entry.item.name}
+        folderPath={directoryHref(entry.item.path)}
+        folderType={entry.item.type}
+        selected={normalizePath(currentPath) == entry.item.path}
+        onNavigate={() => onNavigate(entry.item.path)}
+        onToggle={() => toggleFolder(entry.item.path)}
+      />
+    {/each}
   </SidebarFolderList>
+
+  {#if error}
+    <p class="px-2 pt-2 text-on_surface">{error}</p>
+  {/if}
 </div>

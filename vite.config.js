@@ -1,12 +1,16 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import tailwindcss from '@tailwindcss/vite'
-import { execSync } from 'child_process'
+import { execFileSync } from 'child_process'
+
+function gitOutput(args) {
+  return execFileSync('git', args, {encoding: 'utf8'}).trim()
+}
 
 let gitHash = 'unknown'
 try {
-  const hash = execSync('git rev-parse --short HEAD').toString().trim()
-  const dirty = execSync('git status --porcelain').toString().trim() ? '-dirty' : ''
+  const hash = gitOutput(['rev-parse', '--short', 'HEAD'])
+  const dirty = gitOutput(['status', '--porcelain']) ? '-dirty' : ''
   gitHash = `${hash}${dirty}`
 } catch {}
 

@@ -11,7 +11,6 @@
     hasSubdirs = false,
     folderName = '',
     folderPath = '/',
-    folderType = '',
     selected = false,
     onNavigate = () => {},
     onToggle = () => {},
@@ -46,19 +45,14 @@
 
       <a
         href={folderPath}
-        onclick={(event) => {
-          event.preventDefault();
-          onNavigate();
-        }}
+        onclick={onNavigate}
         class="flex h-full min-w-0 flex-1 cursor-pointer items-center gap-1.5 text-left"
       >
         <span class="inline-flex w-4 shrink-0 items-center justify-center text-sm">
-          {#if folderType == 'directory'}
-            {#if isFirstEntry}
-              <FontAwesomeIcon icon={faLaptop} />
-            {:else}
-              <FontAwesomeIcon icon={faFolder} />
-            {/if}
+          {#if isFirstEntry}
+            <FontAwesomeIcon icon={faLaptop} />
+          {:else}
+            <FontAwesomeIcon icon={faFolder} />
           {/if}
         </span>
 

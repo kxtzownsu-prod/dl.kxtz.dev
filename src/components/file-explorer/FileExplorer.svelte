@@ -1,5 +1,7 @@
 <script>
-  import { API_GetFileInfo, API_GetFileList } from '../api/download.js';
+  import { displayEntryName, isDirectory, sortEntries } from '../../entries.js';
+  import { directoryHref } from '../../path.js';
+  import { API_GetFileInfo, API_GetFileList } from '../api/files.js';
 
   let {
     path = '/',
@@ -8,43 +10,31 @@
 
   let data = $state([]);
   let error = $state('');
+  let loading = $state(true);
   let requestID = 0;
-
-  function fileSort(a, b) {
-    if (a.type !== b.type) {
-      return a.type === 'directory' ? -1 : 1;
-    }
-
-    return a.name.localeCompare(b.name, undefined, {sensitivity: 'base'});
-  }
-
-  function displayName(item) {
-    return item.type === 'directory' && !item.name.endsWith('/')
-      ? `${item.name}/`
-      : item.name;
-  }
 
   async function loadDirectory(path) {
     const currentRequestID = ++requestID;
 
     data = [];
     error = '';
+    loading = true;
 
     try {
       const fileInfo = await API_GetFileInfo(path);
 
-      if (fileInfo.type !== 'directory') {
+      if (!isDirectory(fileInfo)) {
         throw new Error('The path is not a directory.');
       }
 
       const files = await API_GetFileList(path);
-      const sortedFiles = [...files].sort(fileSort);
 
       if (currentRequestID != requestID) {
         return;
       }
 
-      data = sortedFiles;
+      data = sortEntries(files);
+      loading = false;
     } catch (err) {
       if (currentRequestID != requestID) {
         return;
@@ -52,6 +42,7 @@
 
       console.error(err);
       error = err.message || 'failed to load directory';
+      loading = false;
     }
   }
 
@@ -62,23 +53,20 @@
 
 {#if error}
   <p>{error}</p>
-{:else if data.length === 0}
+{:else if loading}
   <p>loading...</p>
 {:else}
   {#each data as item}
     <div>
-      {#if item.type == 'directory'}
+      {#if isDirectory(item)}
         <a
-          href={item.path}
-          onclick={(event) => {
-            event.preventDefault();
-            onNavigate(item.path);
-          }}
+          href={directoryHref(item.path)}
+          onclick={(event) => onNavigate(event, item.path)}
         >
-          {displayName(item)}
+          {displayEntryName(item)}
         </a>
       {:else}
-        <a href={item.path}>{displayName(item)}</a>
+        <a href={item.path}>{displayEntryName(item)}</a>
       {/if}
     </div>
   {/each}

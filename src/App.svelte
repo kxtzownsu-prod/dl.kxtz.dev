@@ -9,7 +9,9 @@
 
   let currentPath = $state(normalizePath(window.location.pathname));
 
-  function navigate(path) {
+  function navigate(event, path) {
+    event.preventDefault();
+
     const normalized = normalizePath(path);
 
     if (normalized == currentPath) {

@@ -1,3 +1,5 @@
+import {normalizePath} from '../../path.js';
+
 const API_CACHE_KEY = 'kxtz_api_cache';
 const API_CACHE_TTL = 5 * 60 * 1000; /* 5 minutes */
 const REQUEST_TIMEOUT = 10 * 1000; /* 10 seconds */
@@ -5,31 +7,32 @@ const BACKENDS = ['https://ddl.kxtz.dev', 'https://ddl-fallback.kxtz.dev'];
 
 let apiBackend = readCachedBackend();
 
-function readCachedBackend() {
+function useStorage(callback) {
   try {
-    const cached = JSON.parse(localStorage.getItem(API_CACHE_KEY));
-    if (BACKENDS.includes(cached?.url) && Date.now() - cached.time < API_CACHE_TTL) {
-      return cached.url;
-    }
-  } catch {}
+    return callback(localStorage);
+  } catch {
+    return null;
+  }
+}
 
-  return null;
+function readCachedBackend() {
+  const cached = useStorage((storage) =>
+    JSON.parse(storage.getItem(API_CACHE_KEY)));
+
+  return BACKENDS.includes(cached?.url) && Date.now() - cached.time < API_CACHE_TTL
+    ? cached.url
+    : null;
 }
 
 function cacheBackend(url) {
   apiBackend = url;
-
-  try {
-    localStorage.setItem(API_CACHE_KEY, JSON.stringify({url, time: Date.now()}));
-  } catch {}
+  useStorage((storage) =>
+    storage.setItem(API_CACHE_KEY, JSON.stringify({url, time: Date.now()})));
 }
 
 function clearBackend() {
   apiBackend = null;
-
-  try {
-    localStorage.removeItem(API_CACHE_KEY);
-  } catch {}
+  useStorage((storage) => storage.removeItem(API_CACHE_KEY));
 }
 
 async function fetchWithTimeout(url, options = {}) {
@@ -95,4 +98,22 @@ export async function API_Request(path, options = {}) {
   }
 
   return response;
+}
+
+export async function API_RequestJSON(path, options = {}) {
+  return await (await API_Request(path, options)).json();
+}
+
+export async function API_RequestText(path, options = {}) {
+  return await (await API_Request(path, options)).text();
+}
+
+export function API_PathParams(path) {
+  return {
+    path: normalizePath(path)
+  };
+}
+
+export async function API_GetURL(path, params = {}) {
+  return makeURL(await API_GetBackend(), path, params).toString();
 }

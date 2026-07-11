@@ -1,8 +1,9 @@
 <script>
   import { onMount } from 'svelte';
 
-  import { directoryHref, normalizePath } from '../../path.js';
-  import { API_GetTree } from '../api/tree.js';
+  import { DIRECTORY_TYPE, hasSubdirectories, sortEntries } from '../../entries.js';
+  import { directoryHref, pathSegments } from '../../path.js';
+  import { API_GetTree } from '../api/files.js';
   import SidebarFolderItem from './SidebarFolderItem.svelte';
   import SidebarFolderList from './SidebarFolderList.svelte';
 
@@ -18,20 +19,17 @@
   let entries = $derived([{
     name: 'My Files',
     path: '/',
-    type: 'directory',
+    type: DIRECTORY_TYPE,
     subdirs: tree
   }]);
   let visibleEntries = $derived(flattenTree(entries, openFolders));
 
   function flattenTree(items, expanded, depth = 0) {
     const visible = [];
-    const sortedItems = [...items].sort((a, b) =>
-      a.name.localeCompare(b.name, undefined, {sensitivity: 'base'}));
-
-    for (const item of sortedItems) {
+    for (const item of sortEntries(items)) {
       visible.push({item, depth});
 
-      if (item.subdirs?.length > 0 && expanded.has(item.path)) {
+      if (hasSubdirectories(item) && expanded.has(item.path)) {
         visible.push(...flattenTree(item.subdirs, expanded, depth + 1));
       }
     }
@@ -41,7 +39,7 @@
 
   function expandPath(path) {
     const expanded = new Set(openFolders);
-    const parts = normalizePath(path).split('/').filter(Boolean);
+    const parts = pathSegments(path);
 
     expanded.add('/');
 
@@ -82,12 +80,11 @@
         depth={entry.depth}
         isFirstEntry={entry.item.path == '/'}
         isOpen={openFolders.has(entry.item.path)}
-        hasSubdirs={entry.item.subdirs?.length > 0}
+        hasSubdirs={hasSubdirectories(entry.item)}
         folderName={entry.item.name}
         folderPath={directoryHref(entry.item.path)}
-        folderType={entry.item.type}
-        selected={normalizePath(currentPath) == entry.item.path}
-        onNavigate={() => onNavigate(entry.item.path)}
+        selected={currentPath == entry.item.path}
+        onNavigate={(event) => onNavigate(event, entry.item.path)}
         onToggle={() => toggleFolder(entry.item.path)}
       />
     {/each}

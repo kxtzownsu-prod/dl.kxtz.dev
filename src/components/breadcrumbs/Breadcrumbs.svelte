@@ -1,23 +1,9 @@
 <script>
-  import { onMount } from 'svelte';
+  import { pathSegments } from '../../path.js';
 
-  let crumbs = [];
+  let { path = '/' } = $props();
 
-  function breadcrumbs(path) {
-    const parts = path.split('/').filter(Boolean);
-    return [
-      {name: "/", href: "/"},
-      ...parts.map((part, index) => ({
-        name: part,
-        /* href: `/${parts.slice(0, index + 1).join('/')}`, */
-        index: index + 1
-      }))
-    ]
-  }
-
-  onMount(() => {
-    crumbs = breadcrumbs(decodeURIComponent(window.location.pathname) || '/');
-  })
+  let crumbs = $derived(['/', ...pathSegments(path)]);
 </script>
 
 <div class="flex py-2 text-md">
@@ -26,10 +12,10 @@
       <p>/</p>
     {/if}
     {#if index === 0}
-      <p>{crumb.name}</p>
+      <p>{crumb}</p>
     {:else}
       <p class="text-secondary text-md">
-        {crumb.name}
+        {crumb}
       </p>
     {/if}
   {/each}

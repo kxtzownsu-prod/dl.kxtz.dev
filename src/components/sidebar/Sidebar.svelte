@@ -62,6 +62,16 @@
     openFolders = expanded;
   }
 
+  function navigateFolder(event, item) {
+    if (hasSubdirectories(item)) {
+      const expanded = new Set(openFolders);
+      expanded.add(item.path);
+      openFolders = expanded;
+    }
+
+    onNavigate(event, item.path);
+  }
+
   onMount(async () => {
     try {
       tree = await API_GetTree();
@@ -84,7 +94,7 @@
         folderName={entry.item.name}
         folderPath={directoryHref(entry.item.path)}
         selected={currentPath == entry.item.path}
-        onNavigate={(event) => onNavigate(event, entry.item.path)}
+        onNavigate={(event) => navigateFolder(event, entry.item)}
         onToggle={() => toggleFolder(entry.item.path)}
       />
     {/each}

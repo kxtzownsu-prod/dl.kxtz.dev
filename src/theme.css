@@ -5,9 +5,17 @@
   src: url("/fonts/GoogleSansText.ttf");
 }
 
+@font-face {
+  font-family: 'Google Sans Text Regular';
+  src: url("/fonts/GoogleSansText.ttf");
+}
+
 :root {
   --cros-font-family-google-sans-text-medium: 'Google Sans Text Medium', 'Google Sans', 'Roboto', sans-serif;
-  --font-button-2: 500 13px/20px var(--cros-font-family-google-sans-text-medium);
+  --cros-font-family-google-sans-text-regular: 'Google Sans Text Regular', 'Google Sans', 'Roboto', sans-serif;
+  
+  --cros-body-2-font: 400 13px / 20px var(--cros-font-family-google-sans-text-regular);
+  --cros-button-2-font: 500 13px / 20px var(--cros-font-family-google-sans-text-medium);
 }
 
 @theme {
@@ -24,5 +32,9 @@
 }
 
 .font-button-2 { /* --cros-button-2-font */
-  font: var(--font-button-2);
+  font: var(--cros-button-2-font);
+}
+
+.font-body-2 { /* --cros-body-2-font */
+  font: var(--cros-body-2-font)
 }

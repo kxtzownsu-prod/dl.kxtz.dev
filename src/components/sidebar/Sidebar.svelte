@@ -17,7 +17,7 @@
   let openFolders = $state(new Set(['/']));
 
   let entries = $derived([{
-    name: 'My Files',
+    name: 'My files',
     path: '/',
     type: DIRECTORY_TYPE,
     subdirs: tree

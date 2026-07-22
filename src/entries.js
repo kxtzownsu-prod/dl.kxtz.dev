@@ -25,7 +25,5 @@ export function sortEntries(entries) {
 }
 
 export function displayEntryName(entry) {
-  return isDirectory(entry) && !entry.name.endsWith('/')
-    ? `${entry.name}/`
-    : entry.name;
+  return entry.name;
 }

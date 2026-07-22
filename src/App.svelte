@@ -39,7 +39,7 @@
   </aside>
 
   <!-- files area -->
-  <section class="bg-app_base mt-6 mr-4 rounded-4xl h-[calc(100vh-1rem)] flex-1 min-w-0 overflow-y-auto p-8 pl-4">
+  <section class="bg-app_base mt-6 mr-4 rounded-4xl h-[105vh] flex-1 min-w-0 overflow-y-auto p-8 pl-4">
     <FileExplorer path={currentPath} onNavigate={navigate} />
   </section>
 </main>

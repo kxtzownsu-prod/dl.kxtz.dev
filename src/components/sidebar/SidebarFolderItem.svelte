@@ -1,7 +1,5 @@
 <script>
-  import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-  import { faFolder } from '@fortawesome/free-regular-svg-icons';
-  import { faLaptop, faChevronDown, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+  import Icon from '../icon/Icon.svelte';
 
   let {
     class: className = '',
@@ -34,9 +32,9 @@
           class="inline-flex size-3 shrink-0 cursor-pointer items-center justify-center text-[0.625rem]"
         >
           {#if isOpen}
-            <FontAwesomeIcon icon={faChevronDown} />
+            <Icon name="chevron-down" />
           {:else}
-            <FontAwesomeIcon icon={faChevronRight} />
+            <Icon name="chevron-right" />
           {/if}
         </button>
       {:else}
@@ -50,9 +48,9 @@
       >
         <span class="inline-flex w-4 shrink-0 items-center justify-center text-sm">
           {#if isFirstEntry}
-            <FontAwesomeIcon icon={faLaptop} />
+            <Icon name="laptop" />
           {:else}
-            <FontAwesomeIcon icon={faFolder} />
+            <Icon name="folder" />
           {/if}
         </span>
 

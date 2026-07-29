@@ -63,12 +63,6 @@
   }
 
   function navigateFolder(event, item) {
-    if (hasSubdirectories(item)) {
-      const expanded = new Set(openFolders);
-      expanded.add(item.path);
-      openFolders = expanded;
-    }
-
     onNavigate(event, item.path);
   }
 

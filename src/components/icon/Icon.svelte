@@ -3,7 +3,7 @@
 
   let { name = "" } = $props();
 
-  let icon = getIcon(name);
+  let icon = $derived(getIcon(name));
 </script>
 
 {#if icon}

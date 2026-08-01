@@ -1,8 +1,8 @@
 <script>
   import { onMount } from 'svelte';
 
-  import { DIRECTORY_TYPE, hasSubdirectories, sortEntries } from '../../entries.js';
-  import { directoryHref, pathSegments } from '../../path.js';
+  import { DIRECTORY_TYPE, hasSubdirectories, sortEntries } from '../../scripts/entries.js';
+  import { directoryHref, pathSegments } from '../../scripts/path.js';
   import { API_GetTree } from '../api/files.js';
   import SidebarFolderItem from './SidebarFolderItem.svelte';
   import SidebarFolderList from './SidebarFolderList.svelte';

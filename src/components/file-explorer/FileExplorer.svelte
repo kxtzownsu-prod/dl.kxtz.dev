@@ -1,6 +1,6 @@
 <script>
-  import { displayEntryName, isDirectory, sortEntries } from '../../entries.js';
-  import { directoryHref } from '../../path.js';
+  import { displayEntryName, isDirectory, sortEntries } from '../../scripts/entries.js';
+  import { directoryHref } from '../../scripts/path.js';
   import { API_GetFileInfo, API_GetFileList } from '../api/files.js';
 
   let {

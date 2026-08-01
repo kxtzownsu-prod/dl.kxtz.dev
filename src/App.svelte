@@ -3,7 +3,7 @@
 
   import './app.css';
 
-  import { directoryHref, normalizePath } from './path.js';
+  import { directoryHref, normalizePath } from './scripts/path.js';
   import Sidebar from './components/sidebar/Sidebar.svelte';
   import FileExplorer from './components/file-explorer/FileExplorer.svelte';
 

@@ -1,4 +1,4 @@
-import {normalizePath} from '../../path.js';
+import { normalizePath } from '../../scripts/path.js';
 
 const API_CACHE_KEY = 'kxtz_api_cache';
 const API_CACHE_TTL = 5 * 60 * 1000; /* 5 minutes */

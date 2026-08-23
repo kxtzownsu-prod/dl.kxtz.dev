@@ -1,4 +1,5 @@
 export const DIRECTORY_TYPE = 'directory';
+export const FILE_TYPE = 'file';
 const ENTRY_COLLATOR = new Intl.Collator(undefined, {
   numeric: true,
   sensitivity: 'base'
@@ -6,6 +7,10 @@ const ENTRY_COLLATOR = new Intl.Collator(undefined, {
 
 export function isDirectory(entry) {
   return entry?.type === DIRECTORY_TYPE;
+}
+
+export function isFile(entry){
+  return entry?.type === FILE_TYPE;
 }
 
 export function hasSubdirectories(entry) {

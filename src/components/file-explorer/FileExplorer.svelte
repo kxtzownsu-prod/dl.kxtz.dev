@@ -1,7 +1,8 @@
 <script>
-  import { displayEntryName, isDirectory, sortEntries } from '../../scripts/entries.js';
+  import { displayEntryName, isDirectory, isFile, sortEntries } from '../../scripts/entries.js';
   import { directoryHref } from '../../scripts/path.js';
   import { API_GetFileInfo, API_GetFileList } from '../api/files.js';
+  import FileRenderer from '../file-renderer/FileRenderer.svelte';
 
   let {
     path = '/',
@@ -12,6 +13,7 @@
   let error = $state('');
   let loading = $state(true);
   let requestID = 0;
+  let isPathFile = $state(false); // always assume the path is a dir
 
   async function loadDirectory(path) {
     const currentRequestID = ++requestID;
@@ -24,7 +26,14 @@
       const fileInfo = await API_GetFileInfo(path);
 
       if (!isDirectory(fileInfo)) {
-        throw new Error('The path is not a directory.');
+        if (!isFile(fileInfo)){
+          throw new Error('This path is not a file or directory, or it does not exist.');
+        }
+
+        isPathFile = true;
+        data = fileInfo;
+        loading = false;
+        return;
       }
 
       const files = await API_GetFileList(path);
@@ -55,6 +64,8 @@
   <p>{error}</p>
 {:else if loading}
   <p>loading...</p>
+{:else if isPathFile}
+  <FileRenderer fileObject={data} />
 {:else}
   {#each data as item}
     <div>

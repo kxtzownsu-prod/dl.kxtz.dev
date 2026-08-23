@@ -24,6 +24,12 @@ export function getIcon(name) {
         rotation: -90
       };
 
+    case 'file':
+      return {
+        svg: '/icons/file.svg',
+        rotation: 0
+      }
+
     default:
       return null;
   }

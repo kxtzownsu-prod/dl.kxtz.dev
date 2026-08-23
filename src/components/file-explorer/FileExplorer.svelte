@@ -21,6 +21,9 @@
     data = [];
     error = '';
     loading = true;
+    isPathFile = false; // this is in case we're opening a directory *after* a file was 
+                        // already opened, in which case the isPathFile var would still
+                        // be 'true', causing it to not properly load the dir.
 
     try {
       const fileInfo = await API_GetFileInfo(path);

@@ -15,9 +15,13 @@
 
 export const fileTypeMap = new Map([
   ['png', 'image'], ['jpg', 'image'], ['jpeg', 'image'],
-  ['bmp', 'image'], ['ico', 'image'],
+  ['bmp', 'image'], ['ico', 'image'], ['webp', 'image'],
+  ['apng', 'image'], ['avif', 'image'], ['gif', 'image'], ['svg', 'image'],
+
   ['md', 'markdown'], ['markdown', 'markdown'],
+  
   ['html', 'html'], ['htm', 'html'],
+  
   ['mp3', 'audio'], ['wav', 'audio'], ['ogg', 'audio'],
   ['m4a', 'audio'], ['aac', 'audio'], ['flac', 'audio'],
   ['mp4', 'video'], ['webm', 'video'], ['ogv', 'video'],
@@ -26,7 +30,10 @@ export const fileTypeMap = new Map([
 
 const MIME_TO_KIND = {
   'image/png': 'image', 'image/jpeg': 'image', 'image/bmp': 'image',
-  'image/x-icon': 'image',
+  'image/x-icon': 'image', 'image/webp': 'image',
+  'image/apng': 'image', 'image/avif': 'image', 'image/gif': 'image',
+  'image/svg+xml': 'image',
+  
   'text/markdown': 'markdown',
   'text/html': 'html',
   'audio/*': 'audio',
@@ -45,13 +52,4 @@ export function detectFileType(name, mime) {
 
   const extension = name.split('.').pop().toLowerCase();
   return fileTypeMap.get(extension) ?? 'unknown';
-}
-
-export function renderFile(fileData) {
-  let mimeType = fileData.mime;
-  let fileName = fileData.name;
-  let fileType = detectFileType(fileName, mimeType);
-  if (fileType == "unknown") return "Unable to render file!";
-
-  return "<h1>test</h1>";
 }

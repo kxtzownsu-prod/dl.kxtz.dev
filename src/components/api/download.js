@@ -1,11 +1,13 @@
 import {API_GetURL, API_PathParams, API_RequestText} from './backend.js';
 
+export const API_RAW_FILE_PATH = "/api/v2/raw";
+
 export async function API_GetDirectDownloadLink(path) {
   return await API_GetURL('/api/v2/download', API_PathParams(path));
 }
 
 export async function API_GetRawFile(path) {
-  return await API_RequestText('/api/v2/raw', {
+  return await API_RequestText(API_RAW_FILE_PATH, {
     params: API_PathParams(path)
   });
 }

@@ -23,6 +23,12 @@ export function getIcon(name) {
         svg: '/icons/chevron.svg',
         rotation: -90
       };
+    
+    case 'chevron-up':
+      return {
+        svg: '/icons/chevron.svg',
+        rotation: 180
+      };
 
     case 'file':
       return {
@@ -33,6 +39,24 @@ export function getIcon(name) {
     case 'download':
       return {
         svg: '/icons/download.svg',
+        rotation: 0
+      }
+
+    case 'info':
+      return {
+        svg: '/icons/info.svg',
+        rotation: 0
+      }
+
+    case 'github':
+      return {
+        svg: '/icons/github.svg',
+        rotation: 0
+      }
+
+    case 'x':
+      return {
+        svg: '/icons/x.svg',
         rotation: 0
       }
 

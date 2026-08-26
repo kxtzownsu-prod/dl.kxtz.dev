@@ -21,7 +21,7 @@
 </script>
 
 {#if fileObject}
-  <img alt={fileObject.name} src={finalPath} />
+  <img alt={fileObject.name} src={finalPath} class="max-w-full max-h-[80vh] object-contain" />
 {:else}
   {console.error("no fileObject passed to " + RENDERER_NAME)}
 {/if}

@@ -12,24 +12,6 @@ export function getIcon(name) {
         rotation: 0
       };
 
-    case 'chevron-down':
-      return {
-        svg: '/icons/chevron.svg',
-        rotation: 0
-      };
-
-    case 'chevron-right':
-      return {
-        svg: '/icons/chevron.svg',
-        rotation: -90
-      };
-    
-    case 'chevron-up':
-      return {
-        svg: '/icons/chevron.svg',
-        rotation: 180
-      };
-
     case 'file':
       return {
         svg: '/icons/file.svg',
@@ -59,6 +41,54 @@ export function getIcon(name) {
         svg: '/icons/x.svg',
         rotation: 0
       }
+
+    case 'chevron-down':
+      return {
+        svg: '/icons/chevron.svg',
+        rotation: 0
+      };
+
+    case 'chevron-right':
+      return {
+        svg: '/icons/chevron.svg',
+        rotation: -90
+      };
+    
+    case 'chevron-left':
+      return {
+        svg: '/icons/chevron.svg',
+        rotation: 90
+      };
+    
+    case 'chevron-up':
+      return {
+        svg: '/icons/chevron.svg',
+        rotation: 180
+      };
+    
+    case 'caret-down':
+      return {
+        svg: '/icons/caret.svg',
+        rotation: -90
+      };
+
+    case 'caret-right':
+      return {
+        svg: '/icons/caret.svg',
+        rotation: 0
+      };
+    
+    case 'caret-left':
+      return {
+        svg: '/icons/caret.svg',
+        rotation: 180
+      };
+    
+    case 'caret-up':
+      return {
+        svg: '/icons/caret.svg',
+        rotation: 90
+      };
 
     default:
       return null;

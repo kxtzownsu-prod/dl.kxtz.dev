@@ -1,15 +1,14 @@
 <script>
-  import { pathSegments } from '../../path.js';
+  import { pathSegments } from "../../scripts/path.js";
+  import Icon from "../icon/Icon.svelte";
 
-  let { path = '/' } = $props();
-
-  let crumbs = $derived(['/', ...pathSegments(path)]);
+  let crumbs = $derived(['My files', ...pathSegments(window.location.pathname)]);
 </script>
 
-<div class="flex py-2 text-md">
+<div class="flex items-center py-2 text-md">
   {#each crumbs as crumb, index}
-    {#if index > 1}
-      <p>/</p>
+    {#if index > 0}
+      <Icon name="caret-right" class="mx-1 text-secondary" />
     {/if}
     {#if index === 0}
       <p>{crumb}</p>

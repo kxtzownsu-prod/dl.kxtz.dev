@@ -1,11 +1,10 @@
 <script>
   import { displayEntryName, isDirectory, isFile, sortEntries } from '../../scripts/entries.js';
   import { directoryHref } from '../../scripts/path.js';
-  import { formatSize } from '../../scripts/size.js';
   import { API_GetFileInfo, API_GetFileList } from '../api/files.js';
-  import { API_DownloadFile } from '../api/download.js';
-  import FileRenderer from '../file-renderer/FileRenderer.svelte';
-  import PillButton from '../buttons/PillButton.svelte';
+  import FilePreview from './FilePreview.svelte';
+  import Icon from '../icon/Icon.svelte';
+  import Breadcrumbs from '../breadcrumbs/Breadcrumbs.svelte';
 
   let {
     path = '/',
@@ -71,36 +70,14 @@
 {:else if loading}
   <p>loading...</p>
 {:else if isPathFile}
-  <!--
-    This is a WIP and is subject to change!
-
-    I have some ideas in mind for how this is going to look. 
-
-    This is NOT the final version of this.
-  -->
-  <div class="flex items-center gap-24">
-    <h1><code>{data.name}</code> ({formatSize(data.size)})</h1>
-    <div class="flex items-center gap-2">
-      <PillButton
-        id="download-btn"
-        icon="download"
-        text="Download"
-        onclick={() => API_DownloadFile(data.path)}
-      />
-      
-      <PillButton
-        id="copyddl-btn"
-        icon="clipboard"
-        text="Copy Direct Download Link"
-      />
-    </div>
-  </div>
-  <hr class="m-2" />
-  <FileRenderer fileObject={data} />
+  <FilePreview fileObject={data} />
 {:else}
+  <Breadcrumbs />
+
   {#each data as item}
-    <div>
+    <div class="flex gap-1">
       {#if isDirectory(item)}
+        <Icon name="folder" />
         <a
           href={directoryHref(item.path)}
           onclick={(event) => onNavigate(event, item.path)}
@@ -108,6 +85,7 @@
           {displayEntryName(item)}
         </a>
       {:else}
+        <Icon name="file" />
         <a href={item.path}>{displayEntryName(item)}</a>
       {/if}
     </div>

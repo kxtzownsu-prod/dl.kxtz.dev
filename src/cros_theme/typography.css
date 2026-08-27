@@ -1,0 +1,211 @@
+/* NOTE(kxtz): renamed from html to @theme */
+/* NOTE(kxtz): renamed from --cros-blah-blah to --cros_blah_blah */
+
+/* Copyright 2020 The Chromium Authors
+ * Use of this source code is governed by a BSD_style license that can be
+ * found in the LICENSE file. */
+
+/* This file is generated from:
+ *  ../../../../../../../home/chrome-bot/chrome_root/src/ui/chromeos/styles/cros_gm3_typography.json5
+ */
+
+/* @font-face {
+  font-family: "GSR";
+  src: local("Google Sans Regular");
+}
+
+@font-face {
+  font-family: "GSM";
+  src: local("Google Sans Medium");
+}
+
+@font-face {
+  font-family: "GSB";
+  src: local("Google Sans Bold");
+} */
+
+@font-face {
+  font-family: 'Google Sans Text Medium';
+  src: url("/fonts/GoogleSansText.ttf");
+}
+
+@font-face {
+  font-family: 'Google Sans Text Regular';
+  src: url("/fonts/GoogleSansText.ttf");
+}
+
+@font-face {
+  font-family: "GSTB";
+  src: url("/fonts/GoogleSansText.ttf");
+}
+
+@theme {
+  /* font families */
+  --cros_font_family_google_sans_regular: 'GSR', 'Google Sans', 'Roboto', sans_serif;
+  --cros_font_family_google_sans_medium: 'GSM', 'Google Sans', 'Roboto', sans_serif;
+  --cros_font_family_google_sans_bold: 'GSB', 'Google Sans', 'Roboto', sans_serif;
+  --cros_font_family_google_sans_text_regular: 'GSTR', 'Google Sans', 'Roboto', sans_serif;
+  --cros_font_family_google_sans_text_medium: 'GSTM', 'Google Sans', 'Roboto', sans_serif;
+  --cros_font_family_google_sans_text_bold: 'GSTB', 'Google Sans', 'Roboto', sans_serif;
+
+  /* typefaces */
+  --cros_display_0_font: 500 52px/60px var(--cros_font_family_google_sans_medium);
+  --cros_display_0_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_0_font_size: 52px;
+  --cros_display_0_font_weight: 500;
+  --cros_display_0_line_height: 60px;
+
+
+  --cros_display_0_regular_font: 400 52px/60px var(--cros_font_family_google_sans_regular);
+  --cros_display_0_regular_font_family: var(--cros_font_family_google_sans_regular);
+  --cros_display_0_regular_font_size: 52px;
+  --cros_display_0_regular_font_weight: 400;
+  --cros_display_0_regular_line_height: 60px;
+
+
+  --cros_display_1_font: 500 44px/52px var(--cros_font_family_google_sans_medium);
+  --cros_display_1_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_1_font_size: 44px;
+  --cros_display_1_font_weight: 500;
+  --cros_display_1_line_height: 52px;
+
+
+  --cros_display_2_font: 500 36px/44px var(--cros_font_family_google_sans_medium);
+  --cros_display_2_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_2_font_size: 36px;
+  --cros_display_2_font_weight: 500;
+  --cros_display_2_line_height: 44px;
+
+
+  --cros_display_3_font: 500 32px/40px var(--cros_font_family_google_sans_medium);
+  --cros_display_3_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_3_font_size: 32px;
+  --cros_display_3_font_weight: 500;
+  --cros_display_3_line_height: 40px;
+
+
+  --cros_display_3_regular_font: 400 32px/40px var(--cros_font_family_google_sans_regular);
+  --cros_display_3_regular_font_family: var(--cros_font_family_google_sans_regular);
+  --cros_display_3_regular_font_size: 32px;
+  --cros_display_3_regular_font_weight: 400;
+  --cros_display_3_regular_line_height: 40px;
+
+
+  --cros_display_4_font: 500 28px/36px var(--cros_font_family_google_sans_medium);
+  --cros_display_4_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_4_font_size: 28px;
+  --cros_display_4_font_weight: 500;
+  --cros_display_4_line_height: 36px;
+
+
+  --cros_display_5_font: 500 24px/32px var(--cros_font_family_google_sans_medium);
+  --cros_display_5_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_5_font_size: 24px;
+  --cros_display_5_font_weight: 500;
+  --cros_display_5_line_height: 32px;
+
+
+  --cros_display_6_font: 500 22px/28px var(--cros_font_family_google_sans_medium);
+  --cros_display_6_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_6_font_size: 22px;
+  --cros_display_6_font_weight: 500;
+  --cros_display_6_line_height: 28px;
+
+
+  --cros_display_6_regular_font: 400 22px/28px var(--cros_font_family_google_sans_regular);
+  --cros_display_6_regular_font_family: var(--cros_font_family_google_sans_regular);
+  --cros_display_6_regular_font_size: 22px;
+  --cros_display_6_regular_font_weight: 400;
+  --cros_display_6_regular_line_height: 28px;
+
+
+  --cros_display_7_font: 500 18px/24px var(--cros_font_family_google_sans_medium);
+  --cros_display_7_font_family: var(--cros_font_family_google_sans_medium);
+  --cros_display_7_font_size: 18px;
+  --cros_display_7_font_weight: 500;
+  --cros_display_7_line_height: 24px;
+
+
+  --cros_title_1_font: 500 16px/24px var(--cros_font_family_google_sans_text_medium);
+  --cros_title_1_font_family: var(--cros_font_family_google_sans_text_medium);
+  --cros_title_1_font_size: 16px;
+  --cros_title_1_font_weight: 500;
+  --cros_title_1_line_height: 24px;
+
+
+  --cros_title_2_font: 700 13px/20px var(--cros_font_family_google_sans_text_bold);
+  --cros_title_2_font_family: var(--cros_font_family_google_sans_text_bold);
+  --cros_title_2_font_size: 13px;
+  --cros_title_2_font_weight: 700;
+  --cros_title_2_line_height: 20px;
+
+
+  --cros_headline_1_font: 500 15px/22px var(--cros_font_family_google_sans_text_medium);
+  --cros_headline_1_font_family: var(--cros_font_family_google_sans_text_medium);
+  --cros_headline_1_font_size: 15px;
+  --cros_headline_1_font_weight: 500;
+  --cros_headline_1_line_height: 22px;
+
+
+  --cros_button_1_font: 500 14px/20px var(--cros_font_family_google_sans_text_medium);
+  --cros_button_1_font_family: var(--cros_font_family_google_sans_text_medium);
+  --cros_button_1_font_size: 14px;
+  --cros_button_1_font_weight: 500;
+  --cros_button_1_line_height: 20px;
+
+
+  --cros_button_2_font: 500 13px/20px var(--cros_font_family_google_sans_text_medium);
+  --cros_button_2_font_family: var(--cros_font_family_google_sans_text_medium);
+  --cros_button_2_font_size: 13px;
+  --cros_button_2_font_weight: 500;
+  --cros_button_2_line_height: 20px;
+
+
+  --cros_body_0_font: 400 16px/24px var(--cros_font_family_google_sans_text_regular);
+  --cros_body_0_font_family: var(--cros_font_family_google_sans_text_regular);
+  --cros_body_0_font_size: 16px;
+  --cros_body_0_font_weight: 400;
+  --cros_body_0_line_height: 24px;
+
+
+  --cros_body_1_font: 400 14px/20px var(--cros_font_family_google_sans_text_regular);
+  --cros_body_1_font_family: var(--cros_font_family_google_sans_text_regular);
+  --cros_body_1_font_size: 14px;
+  --cros_body_1_font_weight: 400;
+  --cros_body_1_line_height: 20px;
+
+
+  --cros_body_2_font: 400 13px/20px var(--cros_font_family_google_sans_text_regular);
+  --cros_body_2_font_family: var(--cros_font_family_google_sans_text_regular);
+  --cros_body_2_font_size: 13px;
+  --cros_body_2_font_weight: 400;
+  --cros_body_2_line_height: 20px;
+
+
+  --cros_annotation_1_font: 400 12px/18px var(--cros_font_family_google_sans_text_regular);
+  --cros_annotation_1_font_family: var(--cros_font_family_google_sans_text_regular);
+  --cros_annotation_1_font_size: 12px;
+  --cros_annotation_1_font_weight: 400;
+  --cros_annotation_1_line_height: 18px;
+
+
+  --cros_annotation_2_font: 400 11px/16px var(--cros_font_family_google_sans_text_regular);
+  --cros_annotation_2_font_family: var(--cros_font_family_google_sans_text_regular);
+  --cros_annotation_2_font_size: 11px;
+  --cros_annotation_2_font_weight: 400;
+  --cros_annotation_2_line_height: 16px;
+
+
+  --cros_label_1_font: 500 10px/10px var(--cros_font_family_google_sans_text_medium);
+  --cros_label_1_font_family: var(--cros_font_family_google_sans_text_medium);
+  --cros_label_1_font_size: 10px;
+  --cros_label_1_font_weight: 500;
+  --cros_label_1_line_height: 10px;
+
+
+  --cros_label_2_font: 400 10px/10px var(--cros_font_family_google_sans_text_regular);
+  --cros_label_2_font_family: var(--cros_font_family_google_sans_text_regular);
+  --cros_label_2_font_size: 10px;
+  --cros_label_2_font_weight: 400;
+  --cros_label_2_line_height: 10px;
+}

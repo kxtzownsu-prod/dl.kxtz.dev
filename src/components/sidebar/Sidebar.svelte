@@ -63,6 +63,7 @@
   }
 
   function navigateFolder(event, item) {
+    expandPath(item.path);
     onNavigate(event, item.path);
   }
 

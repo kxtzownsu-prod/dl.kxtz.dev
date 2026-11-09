@@ -23,7 +23,7 @@
         id="download-btn"
         icon="download"
         text="Download"
-        onclick={() => API_DownloadFile(fileObject.path)}
+        onclick={() => API_DownloadFile(fileObject.path, fileObject.size)}
       />
       
       <PillButton

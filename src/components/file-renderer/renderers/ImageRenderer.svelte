@@ -1,6 +1,5 @@
 <script>
-  import { API_GetURL, API_PathParams } from '../../api/backend.js';
-  import { API_RAW_FILE_PATH } from '../../api/download.js';
+  import { API_GetRawFileBlob } from '../../api/download.js';
 
   const RENDERER_NAME = "ImageRenderer";
 
@@ -12,11 +11,23 @@
     if (!fileObject?.path) return;
 
     let stale = false;
-    API_GetURL(API_RAW_FILE_PATH, API_PathParams(fileObject.path)).then((url) => {
-      if (!stale) finalPath = url;
+    let objectURL = '';
+
+    finalPath = '';
+
+    API_GetRawFileBlob(fileObject.path).then((blob) => {
+      if (stale) return;
+
+      objectURL = URL.createObjectURL(blob);
+      finalPath = objectURL;
+    }).catch((error) => {
+      if (!stale) console.error(error);
     });
 
-    return () => { stale = true; };
+    return () => {
+      stale = true;
+      if (objectURL) URL.revokeObjectURL(objectURL);
+    };
   });
 </script>
 

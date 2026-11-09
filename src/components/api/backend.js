@@ -158,6 +158,10 @@ export async function API_RequestText(path, options = {}) {
   return await (await API_Request(path, options)).text();
 }
 
+export async function API_RequestBlob(path, options = {}) {
+  return await (await API_Request(path, options)).blob();
+}
+
 export function API_PathParams(path) {
   return {
     path: normalizePath(path)

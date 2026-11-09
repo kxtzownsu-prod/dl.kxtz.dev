@@ -25,12 +25,12 @@
 } */
 
 @font-face {
-  font-family: 'Google Sans Text Medium';
+  font-family: 'GSTM';
   src: url("/fonts/GoogleSansText.ttf");
 }
 
 @font-face {
-  font-family: 'Google Sans Text Regular';
+  font-family: 'GSTR';
   src: url("/fonts/GoogleSansText.ttf");
 }
 
@@ -41,12 +41,12 @@
 
 @theme {
   /* font families */
-  --cros_font_family_google_sans_regular: 'GSR', 'Google Sans', 'Roboto', sans_serif;
-  --cros_font_family_google_sans_medium: 'GSM', 'Google Sans', 'Roboto', sans_serif;
-  --cros_font_family_google_sans_bold: 'GSB', 'Google Sans', 'Roboto', sans_serif;
-  --cros_font_family_google_sans_text_regular: 'GSTR', 'Google Sans', 'Roboto', sans_serif;
-  --cros_font_family_google_sans_text_medium: 'GSTM', 'Google Sans', 'Roboto', sans_serif;
-  --cros_font_family_google_sans_text_bold: 'GSTB', 'Google Sans', 'Roboto', sans_serif;
+  --cros_font_family_google_sans_regular: 'GSR', 'Google Sans', 'Roboto', sans-serif;
+  --cros_font_family_google_sans_medium: 'GSM', 'Google Sans', 'Roboto', sans-serif;
+  --cros_font_family_google_sans_bold: 'GSB', 'Google Sans', 'Roboto', sans-serif;
+  --cros_font_family_google_sans_text_regular: 'GSTR', 'Google Sans', 'Roboto', sans-serif;
+  --cros_font_family_google_sans_text_medium: 'GSTM', 'Google Sans', 'Roboto', sans-serif;
+  --cros_font_family_google_sans_text_bold: 'GSTB', 'Google Sans', 'Roboto', sans-serif;
 
   /* typefaces */
   --cros_display_0_font: 500 52px/60px var(--cros_font_family_google_sans_medium);

@@ -96,6 +96,6 @@
   </SidebarFolderList>
 
   {#if error}
-    <p class="px-2 pt-2 text-on_surface">{error}</p>
+    <p class="px-2 pt-2 text-sys_error">{error}</p>
   {/if}
 </div>

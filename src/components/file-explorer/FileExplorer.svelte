@@ -66,13 +66,13 @@
 </script>
 
 {#if error}
-  <p>{error}</p>
+  <p class="text-sys_error">{error}</p>
 {:else if loading}
-  <p>loading...</p>
+  <p class="text-sys_on_surface_variant">loading...</p>
 {:else if isPathFile}
   <FilePreview fileObject={data} />
 {:else}
-  <Breadcrumbs />
+  <Breadcrumbs path={path} onNavigate={onNavigate} />
 
   {#each data as item}
     <div class="flex gap-1">

@@ -19,7 +19,7 @@
 <div class="relative min-w-0" use:clickOutside={() => open = false}>
   <button
     type="button"
-    class="w-full flex cursor-pointer items-center justify-between rounded-lg border border-secondary bg-app_base_shaded px-2 py-1"
+    class="w-full flex cursor-pointer items-center justify-between rounded-lg border border-sys_separator bg-sys_input_field_on_base px-2 py-1 font-button_2_font"
     onclick={toggle}
   >
     <span class="truncate">{value || placeholder}</span>
@@ -33,11 +33,11 @@
   </button>
 
   {#if open}
-    <div class="absolute bottom-full mb-1 w-full rounded-lg border border-secondary bg-app_base_shaded shadow-lg overflow-hidden">
+    <div class="absolute bottom-full mb-1 w-full rounded-lg border border-sys_separator bg-sys_base_elevated shadow-lg overflow-hidden">
       {#each options as opt}
         <button
           type="button"
-          class="w-full text-left px-2 py-1 hover:bg-primary/20 {opt == value ? 'bg-primary/30' : ''}"
+          class="w-full text-left px-2 py-1 font-button_2_font hover:bg-sys_hover_on_subtle {opt == value ? 'bg-sys_pressed_on_subtle' : ''}"
           onclick={() => select(opt)}
         >
           {opt}

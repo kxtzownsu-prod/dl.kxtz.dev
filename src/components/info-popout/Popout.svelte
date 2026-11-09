@@ -28,9 +28,9 @@
   }
 </script>
 
-<div class="absolute bottom-full left-1/2 -ml-6 mb-6 w-60 rounded-2xl border border-primary bg-app_base p-4 shadow-lg">
+<div class="absolute bottom-full left-1/2 -ml-6 mb-6 w-60 rounded-2xl border border-sys_separator bg-sys_dialog_container p-4 shadow-lg">
   <button
-    class="cursor-pointer absolute top-4 right-4 flex items-center justify-center rounded-full p-2 hover:bg-hover_on_subtle"
+    class="cursor-pointer absolute top-4 right-4 flex items-center justify-center rounded-full p-2 hover:bg-sys_hover_on_subtle"
     onclick={onClose}
     aria-label="Close"
   >
@@ -38,7 +38,7 @@
   </button>
   
   <button
-    class="hover:bg-hover_on_subtle cursor-pointer p-2 rounded-full flex items-center justify-center"
+    class="hover:bg-sys_hover_on_subtle cursor-pointer p-2 rounded-full flex items-center justify-center"
     onclick={window.open("https://github.com/kxtzownsu-prod/dl.kxtz.dev")}
   >
     <Icon name="github" />
@@ -46,18 +46,18 @@
   
   <div class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-2 gap-y-2 mt-2">
     <PopoutOptionRow label="API Key">
-      <input bind:value={apiKey.value} class="w-full rounded-lg border border-secondary bg-app_base_shaded px-2 py-1" type="password" placeholder="ks_ddl.NTQ0NBz394..." />
+      <input bind:value={apiKey.value} class="w-full rounded-lg border border-sys_separator bg-sys_input_field_on_base px-2 py-1 font-body_2_font placeholder:text-sys_secondary" type="password" placeholder="ks_ddl.NTQ0NBz394..." />
     </PopoutOptionRow>
 
     <PopoutOptionRow label="Reset Cache?">
-      <button class="w-full cursor-pointer py-1 px-2 rounded-xl border border-red-400 text-red-400" onclick={resetCache}>
+      <button class="w-full cursor-pointer py-1 px-2 rounded-xl border border-sys_error text-sys_error" onclick={resetCache}>
         Reset
       </button>
     </PopoutOptionRow>
 
     <PopoutOptionRow label="Cache Timeout">
       <div class="flex items-center w-full">
-        <input bind:value={cacheTimeoutTimeAmount.value} class="w-8" type="number" min="1" />
+        <input bind:value={cacheTimeoutTimeAmount.value} class="w-8 font-body_2_font" type="number" min="1" />
         <PopoutDropdown bind:value={cacheTimeoutTimeUnit.value} options={["Minute(s)", "Hour(s)", "Day(s)", "Week(s)"]} placeholder="Minute(s)" />
       </div>
     </PopoutOptionRow>

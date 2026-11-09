@@ -33,14 +33,14 @@
   });
 </script>
 
-<main class="bg-app_base_shaded text-primary font-button-2 h-screen w-screen overflow-hidden flex">
+<main class="bg-sys_app_base_shaded text-sys_on_surface font-button_2_font h-screen w-screen overflow-hidden flex">
   <!-- sidebar -->
   <aside class="w-64 shrink-0 h-full overflow-y-auto py-8 pl-4 pr-2">
     <Sidebar currentPath={currentPath} onNavigate={navigate} />
   </aside>
 
   <!-- files area -->
-  <section class="bg-app_base mt-6 mr-4 rounded-4xl h-[105vh] flex-1 min-w-0 overflow-y-auto p-8 pl-4">
+  <section class="bg-sys_app_base mt-6 mr-4 rounded-4xl h-[105vh] flex-1 min-w-0 overflow-y-auto p-8 pl-4">
     <FileExplorer path={currentPath} onNavigate={navigate} />
   </section>
 

@@ -33,6 +33,6 @@
       />
     </div>
   </div>
-  <hr class="m-2" />
+  <hr class="m-2 border-sys_separator" />
   <FileRenderer fileObject={fileObject} />
 </div>

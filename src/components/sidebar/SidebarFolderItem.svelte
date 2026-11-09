@@ -19,7 +19,7 @@
 </script>
 
 {#if folderName}
-  <li class={`m-0 w-full text-xs font-button-2 ${className}`} {...rest}>
+  <li class={`m-0 w-full font-button_2_font ${className}`} {...rest}>
     <a
       href={folderPath}
       onclick={(e) => {
@@ -39,7 +39,7 @@
       <div
         style:padding-left={paddingLeft}
         class={`py-5 flex h-8 w-full items-center gap-1.5 rounded-full pr-3 transition-colors ${
-          selected ? 'bg-primary text-on_primary' : 'hover:bg-hover_on_subtle'
+          selected ? 'bg-sys_primary text-sys_on_primary' : 'hover:bg-sys_hover_on_subtle'
         }`}
       >
         {#if hasSubdirs}

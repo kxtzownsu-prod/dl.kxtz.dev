@@ -1,3 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&family=Geist+Mono:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
-@import "./theme.css";
+
+@import "./cros_theme/colors.css";
+@import "./cros_theme/typography.css";
+
+@import "./cros_theme_tailwind.css";
+
+@utility font-button_2_font {
+  font: var(--cros_button_2_font);
+}
+
+@utility font-body_2_font {
+  font: var(--cros_body_2_font);
+}
+
+@utility font-title_1_font {
+  font: var(--cros_title_1_font);
+}
